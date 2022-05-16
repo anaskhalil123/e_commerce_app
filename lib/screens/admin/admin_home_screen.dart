@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/Constants.dart';
+import 'package:e_commerce_app/screens/admin/add_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,9 @@ class AdminHome extends StatelessWidget {
               width: double.infinity,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AddProduct.id);
+              },
               child: Text('Add Product'),
             ),
             ElevatedButton(

@@ -61,6 +61,7 @@ flutter:
   assets:
      - images/icons/
      - images/icons/buy_it_icon.png
+     - images/juckets/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

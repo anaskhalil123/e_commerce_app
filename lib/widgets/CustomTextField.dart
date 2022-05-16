@@ -5,8 +5,8 @@ import '../Constants.dart';
 
 class CustomTextField extends StatelessWidget {
   late final String hint;
-  late final IconData icon;
-  late final TextEditingController controller;
+  late final IconData? icon;
+  late final TextEditingController? controller;
 
   String? _errorMessage(String? str) {
     if (str!.isEmpty) {
@@ -18,12 +18,13 @@ class CustomTextField extends StatelessWidget {
         case 'Enter Full Name':
           return 'Full Name is required';
       }
+      return '$hint is required';
     } else {
       return null;
     }
   }
 
-  CustomTextField({required this.icon, required this.hint, required this.controller});
+  CustomTextField({this.icon, required this.hint, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class CustomTextField extends StatelessWidget {
         validator: _errorMessage,
         cursorColor: kMainColor,
         decoration: InputDecoration(
-          hintText: 'Enter Email',
+          hintText: hint,
           hintStyle: const TextStyle(color: Colors.black26),
           prefixIcon: Icon(
             icon,
