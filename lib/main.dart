@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/screens/admin/add_product.dart';
 import 'package:e_commerce_app/screens/admin/admin_home_screen.dart';
+import 'package:e_commerce_app/screens/admin/edit_product.dart';
 import 'package:e_commerce_app/screens/user/home_screen.dart';
 import 'package:e_commerce_app/screens/login_screen.dart';
 import 'package:e_commerce_app/screens/sigup_screen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         AdminHome.id: (context) => AdminHome(),
         AddProduct.id: (context) => AddProduct(),
+        EditProduct.id: (context) => EditProduct(),
       },
     );
   }

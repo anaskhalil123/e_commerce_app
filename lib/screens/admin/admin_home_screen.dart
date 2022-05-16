@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/Constants.dart';
 import 'package:e_commerce_app/screens/admin/add_product.dart';
+import 'package:e_commerce_app/screens/admin/edit_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,22 +16,24 @@ class AdminHome extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, AddProduct.id);
               },
-              child: Text('Add Product'),
+              child: const Text('Add Product'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, EditProduct.id);
+              },
+              child: const Text('Edit Product'),
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text('Edit Product'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('View Orders'),
+              child: const Text('View Orders'),
             ),
           ],
         ),
