@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/screens/admin/admin_home_screen.dart';
+import 'package:e_commerce_app/screens/user/home_screen.dart';
 import 'package:e_commerce_app/screens/login_screen.dart';
 import 'package:e_commerce_app/screens/sigup_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,9 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginScreen.id,
       routes: {
         LoginScreen.id: (context) => LoginScreen(),
-        SignupScreen.id: (context) => SignupScreen()
+        SignupScreen.id: (context) => SignupScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
+        AdminHome.id: (context) => AdminHome()
       },
     );
   }
