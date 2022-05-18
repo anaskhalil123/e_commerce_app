@@ -1,38 +1,153 @@
+import 'package:e_commerce_app/models/Product.dart';
+import 'package:e_commerce_app/screens/admin/add_product.dart';
+import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../fireBase/firestore.dart';
+import '../../widgets/CustomTextField.dart';
+
 class EditProduct extends StatefulWidget {
   static String id = 'EditProduct';
+ final Product? product;
+
+  EditProduct(this.product);
+
 
   @override
   State<EditProduct> createState() => _EditProductState();
 }
 
-class _EditProductState extends State<EditProduct> {
-  final List<Product> _products = [
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket06.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket01.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket02.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket04.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket05.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket08.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket07.jpeg'),
-    Product('jacket', '30', 'Jackets', "jacker desc......",
-        'images/juckets/jacket01.jpeg')
-  ];
+class _EditProductState extends State<EditProduct> with Helpers{
+
+
+  // final List<ProductIner> _products = [
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket06.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket01.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket02.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket04.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket05.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket08.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket07.jpeg'),
+  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
+  //       'images/juckets/jacket01.jpeg')
+  // ];
+  
+  
+  String imageProduct = "";
+
+  late TextEditingController _titleTextController;
+  late TextEditingController _descriptionTextController;
+  late TextEditingController _categoryTextController;
+  late TextEditingController _priceTextController;
+  late TextEditingController _locationTextController;
+  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+  @override
+  void initState(){
+    super.initState();
+  //  getProducts();
+    _titleTextController = TextEditingController(text: widget.product?.title ?? '');
+    _descriptionTextController = TextEditingController(text: widget.product?.description ?? '');
+    _categoryTextController = TextEditingController(text: widget.product?.category ?? '');
+    _priceTextController = TextEditingController(text: widget.product?.price ?? '');
+    _locationTextController = TextEditingController(text: widget.product?.location ?? '');
+  }
+
+@override
+void dispose() {
+  _titleTextController.dispose();
+  _descriptionTextController.dispose();
+  _categoryTextController.dispose();
+  _priceTextController.dispose();
+  _locationTextController.dispose();
+
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    
+    
     return Scaffold(
-      backgroundColor: Colors.white70,
-      body: GridView.builder(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          'Edit PRODUCT',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Form(
+        key: _globalKey,
+        child: Container(
+          height: height,
+          width: width,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: (height * 0.25), horizontal: 20),
+              child: Column(
+                children: [
+                  CustomTextField(
+                      controller: _titleTextController, hint: 'Product Name'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      controller: _priceTextController, hint: 'Product Price'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      controller: _descriptionTextController,
+                      hint: 'Product Description'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      controller: _categoryTextController,
+                      hint: 'Product Category'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      controller: _locationTextController,
+                      hint: 'Product Location'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    child: Text('Edit Product'),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(double.infinity, 50)
+                    ),
+                    onPressed: () async {
+                      if (_globalKey.currentState!.validate()) {
+                        print('data is validated');
+                        _globalKey.currentState!.save();
+                        await performSave();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ), 
+      
+      /*
+      GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 8,
@@ -94,24 +209,66 @@ class _EditProductState extends State<EditProduct> {
                 ),
               ),
           itemCount: _products.length),
+      
+      
+      
+      */
     );
   }
 
-  @override
-  void initState() {
-    getProducts();
-    super.initState();
+  // @override
+  // void initState() {
+  //
+  //   super.initState();
+  // }
+
+  //void getProducts() {}
+
+  Future<void> performSave() async {
+    if (checkData()) {
+      await update();
+    }
   }
 
-  void getProducts() {}
+  bool checkData() {
+    if (_titleTextController.text.isNotEmpty &&
+        _descriptionTextController.text.isNotEmpty &&
+        _categoryTextController.text.isNotEmpty &&
+        _priceTextController.text.isNotEmpty &&
+        _locationTextController.text.isNotEmpty) {
+      return true;
+    }
+    showSnackBar(context: context, content: 'Enter requred data', error: true);
+    return false;
+  }
+
+  Future<void> update() async {
+    bool status = await FireStoreCotroller().update(path: widget.product!.path, product: product);
+    if (status) {
+      showSnackBar(context: context, content: 'product Edited successfully ');
+      Navigator.pop(context);
+    }
+  }
+
+  Product get product {
+    Product product = Product();
+    product.title = _titleTextController.text;
+    product.image = imageProduct;
+    product.price = _priceTextController.text;
+    product.category = _categoryTextController.text;
+    product.description = _descriptionTextController.text;
+    product.location = _locationTextController.text;
+
+    return product;
+  }
 }
 
-class Product {
-  late String name;
-  late String price;
-  late String desc;
-  late String category;
-  late String imageLocation;
-
-  Product(this.name, this.price, this.category, this.desc, this.imageLocation);
-}
+// class ProductIner {
+//   late String name;
+//   late String price;
+//   late String desc;
+//   late String category;
+//   late String imageLocation;
+//
+//   ProductIner(this.name, this.price, this.category, this.desc, this.imageLocation);
+// }

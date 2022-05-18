@@ -28,9 +28,8 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextFormField(
+    return TextFormField(
+        obscureText: hint =='Enter Password'? true: false,
         controller: controller,
         validator: _errorMessage,
         cursorColor: kMainColor,
@@ -55,7 +54,7 @@ class CustomTextField extends StatelessWidget {
           filled: true,
           fillColor: kTextFieldColor,
         ),
-      ),
+
     );
   }
 }
