@@ -24,7 +24,9 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DashBoard'),
+        title: Text('Dashboard', style: TextStyle(color: Colors.white, fontSize: 18),),
+
+
       ),
 
       /*
@@ -32,55 +34,195 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
         stream: FireStoreCotroller().read(),
        */
 
-      body: StreamBuilder<QuerySnapshot>(
+      body:Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+      children: [
+
+      Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+      Column(
+        children: [
+          ElevatedButton(
+
+            onPressed: (){
+              Navigator.pushNamed(context, AddProduct.id);
+            }, child: Icon(Icons.add),
+            style: ElevatedButton.styleFrom(
+
+                minimumSize: Size(80, 80)),
+
+            //_upload('camera')
+            // icon: const Icon(Icons.add),
+            // label: const Text('Add product')
+
+
+          ),
+          SizedBox(height: 10,),
+          Text('Add product' , style: TextStyle(fontSize: 12),)
+        ],
+      ),
+        
+       
+    //   ElevatedButton.icon(
+    //   onPressed: () {}, //=> _upload('gallery')
+    // icon: const Icon(Icons.library_add),
+    // label: const Text('Gallery')),
+    // ],
+    // ),
+        Column(
+          children: [
+            ElevatedButton(
+              onPressed: (){}, child: Icon(Icons.view_comfortable),
+              style: ElevatedButton.styleFrom(
+                  minimumSize: Size(80, 80)
+              ),
+              //_upload('camera')
+              // icon: const Icon(Icons.add),
+              // label: const Text('Add product')
+
+
+            ),
+            SizedBox(height: 10,),
+            Text('View orders' , style: TextStyle(fontSize: 12),)
+          ]
+        )
+    ]),
+
+      Expanded(
+        child:
+      StreamBuilder<QuerySnapshot>(
           stream: FireStoreCotroller().read(),
           builder: (context, snapshot) {
+
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton.icon(
-                          onPressed: (){} , //_upload('camera')
-                          icon: const Icon(Icons.camera),
-                          label: const Text('camera')),
-                      ElevatedButton.icon(
-                          onPressed: () {}, //=> _upload('gallery')
-                          icon: const Icon(Icons.library_add),
-                          label: const Text('Gallery')),
-                    ],
-                  ),
-                  Center(
+              return Center(
                 child: CircularProgressIndicator(),
               );
+
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
               List<QueryDocumentSnapshot> data = snapshot.data!.docs;
               return ListView.separated(
+                padding: EdgeInsets.symmetric(vertical: 15),
                   itemBuilder: (context, index) {
-                    return Card(child: ListTile(
+
+                    return Card(child: Row(
+                      children: [
+
+                        Card(
+
+                        clipBehavior: Clip.antiAlias,
+                        elevation: 0,
+
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+
+
+                        child:Container(
+
+                          child:  Image.network(data[index].get('image'), fit: BoxFit.cover,),
+                          height: 100,
+                          width: 100,
+                        )
+
+                    ),
+
+
+/*
+                     FutureBuilder<String>(
+                       future: data[index].get('image').getDownloadURL(),
+                       builder: (context, snapshot){
+                         if(snapshot.connectionState == ConnectionState.waiting){
+                           return Center(child: CircularProgressIndicator());
+
+                         }else if(snapshot.hasData){
+                           return  Card(
+
+                           clipBehavior: Clip.antiAlias,
+                           elevation: 0,
+
+                           shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(15),
+                           ),
+
+
+                           child:Container(
+
+                           child:  Image.network(data[index].get('image'), fit: BoxFit.cover,),
+                           height: 100,
+                           width: 100,
+                           )
+
+                           );
+                             //Image.network(snapshot.data!);
+                         }else{
+                           // return Image.network('https://www.google.com/url?sa=i&url=https%3A%2F%2Fsocialistmodernism.com%2Fplaceholder-image%2F&psig=AOvVaw3uVdR09_c-9p_h4fp6YCEm&ust=1653239844635000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCKjUmqKM8fcCFQAAAAAdAAAAABAD');
+                         return FlutterLogo();
+                         }
+                       },
+                     ),
+
+*/
+
+
+
+
+
+                        Column(
+                          children: [
+                            Text(data[index].get('title')),
+                            Text(data[index].get('price'))
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () async {
+                                  Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => EditProduct(getProduct(data[index]))));
+                                },
+                                icon: Icon(Icons.edit)),
+
+                            IconButton(
+                                  onPressed: () async {
+                                    await delete(path: data[index].id);
+                                  },
+                                  icon: Icon(Icons.delete)),
+
+
+                          ],
+
+                        )
+
+                      ],
+
                     //  leading: Image.network('dddd'),
                       // leading: Icon(Icons.title),
-                      title: Text(data[index].get('title')),
-                      subtitle: Text(data[index].get('price')),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditProduct(getProduct(data[index]))));
-                      },
-                      trailing: IconButton(
-                          onPressed: () async {
-                            await delete(path: data[index].id);
-                          },
-                          icon: Icon(Icons.delete)),
+
+                      // title: Text(data[index].get('title')),
+                      // subtitle: Text(data[index].get('price')),
+                      // onTap: () {
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => EditProduct(getProduct(data[index]))));
+                      // },
+                      // trailing: IconButton(
+                      //     onPressed: () async {
+                      //       await delete(path: data[index].id);
+                      //     },
+                      //     icon: Icon(Icons.delete)),
+
                     ));
                   },
                   separatorBuilder: (context, index) {
                     return Divider();
                   },
+                 // padding: EdgeInsets.symmetric(horizontal: double.infinity, vertical: 120),
                   itemCount: data.length);
               // return ListView.separated(
               //   padding: EdgeInsets.symmetric(
@@ -139,7 +281,10 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
               ));
             }
           }),
-    );
+
+      )
+    ],
+    )));
 
     /*
       Scaffold(

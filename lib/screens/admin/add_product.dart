@@ -54,6 +54,7 @@ ImagePicker imagePicker = ImagePicker();
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'ADD PRODUCT',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
