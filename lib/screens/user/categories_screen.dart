@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
-class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({Key? key}) : super(key: key);
+import 'package:provider/provider.dart';
+
+import '../../models/Product.dart';
+import '../../models/purchase.dart';
+import '../../provider/cartItem.dart';
+
+class CartScreen extends StatefulWidget {
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
-  State<CategoriesScreen> createState() => _CategoriesScreenState();
+  State<CartScreen> createState() => _CartScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+
+    List<Purchase> purchases = Provider
+        .of<CartItem>(context)
+        .purchase;
+
+    return Container(
+        child: Text(purchases.first.product.title)
+    );
   }
 }
+

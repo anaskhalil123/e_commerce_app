@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/models/Product.dart';
 import 'package:e_commerce_app/models/bn_screen.dart';
 import 'package:e_commerce_app/screens/user/categories_screen.dart';
 import 'package:e_commerce_app/screens/user/products_screen.dart';
@@ -14,11 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex =0;
+  int _currentIndex = 0;
 
   final List<BnScreen> _screens = <BnScreen>[
-   const BnScreen(title: 'HOME', widget: ProductsScreen()),
-    const BnScreen(title: 'CATEGORIES', widget: CategoriesScreen()),
+    const BnScreen(title: 'HOME', widget: ProductsScreen()),
+    const BnScreen(title: 'CATEGORIES', widget: CartScreen()),
     const BnScreen(title: 'PROFILE', widget: ProfileScreen())
   ];
 
@@ -31,38 +30,34 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         title: Text(
           _screens[_currentIndex].title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-
-     bottomNavigationBar: BottomNavigationBar(
-       type: BottomNavigationBarType.fixed,
-       onTap: (int currentIndex){
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        onTap: (int currentIndex) {
           setState(() {
             _currentIndex = currentIndex;
           });
-
-       },
-       currentIndex: _currentIndex,
-       //fixedColor: Colors.amber,
-       selectedItemColor: Colors.amber,
-       items: [
-         BottomNavigationBarItem(icon: Icon(Icons.home),
-             label: 'HOME'
-         ),
-         BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),
-           label: 'Cart',
-
-         ),
-         BottomNavigationBarItem(icon: Icon(Icons.person),
-           label: 'Profile',
-
-         )
-       ],
-     ),
+        },
+        currentIndex: _currentIndex,
+        //fixedColor: Colors.amber,
+        selectedItemColor: Colors.amber,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          )
+        ],
+      ),
       body: _screens[_currentIndex].widget,
     );
   }

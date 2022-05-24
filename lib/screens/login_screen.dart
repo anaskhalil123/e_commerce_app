@@ -1,19 +1,16 @@
 import 'package:e_commerce_app/Constants.dart';
 import 'package:e_commerce_app/fireBase/firestore.dart';
-import 'package:e_commerce_app/screens/admin/admin_home_screen.dart';
 import 'package:e_commerce_app/screens/sigup_screen.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:e_commerce_app/widgets/AppIconWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../fireBase/auth.dart';
 import '../models/User.dart';
 import '../provider/modelHud.dart';
 import '../widgets/CustomTextField.dart';
-import 'user/home_screen.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
@@ -63,8 +60,6 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
               SizedBox(
                 height: height * .01,
               ),
-              // TODO  isTeacher عشان نحفظ تعديل ال  provider  هنا نحتاج لل
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 35),
                 child: Row(
@@ -93,52 +88,55 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                 padding: EdgeInsets.symmetric(
                     horizontal: (MediaQuery.of(context).size.width) * .31),
                 child: Builder(
-                    builder:(context) => ElevatedButton(
+                  builder: (context) => ElevatedButton(
                     onPressed: () async {
-                      final modelHud = Provider.of<ModelHud>(context, listen: false);
+                      final modelHud =
+                          Provider.of<ModelHud>(context, listen: false);
                       print('current state ${_globalKey.currentState}');
                       _globalKey.currentState?.validate();
                       // do something
-                      _email =   emailController.text.trim();
+                      _email = emailController.text.trim();
                       _password = passwordController.text.trim();
-    if (_email.isNotEmpty &&
-    _password.isNotEmpty) {
-      modelHud.changeIsLoading(true);
+                      if (_email.isNotEmpty && _password.isNotEmpty) {
+                        modelHud.changeIsLoading(true);
 
-        try {
-          final result = await _auth.signIn(_email, _password);
+                        try {
+                          final result = await _auth.signIn(_email, _password);
 
-          modelHud.changeIsLoading(false);
-        final snapshot = await FireStoreCotroller().getMyInformation(id: '${result.user!.uid}');
-           User user = User(snapshot.id, snapshot.get('title'), snapshot.get('email'), snapshot.get('isTeacher'));
+                          modelHud.changeIsLoading(false);
+                          final snapshot = await FireStoreCotroller()
+                              .getMyInformation(id: result.user!.uid);
+                          User user = User(snapshot.id, snapshot.get('title'),
+                              snapshot.get('email'), snapshot.get('isTeacher'));
 
-       //   showSnackBar(context: context, content: '$user');
+                          //   showSnackBar(context: context, content: '$user');
 
+                          // User user = User(email: _email, isTeacher: isTeacher);
+                          // AppPrefernces().save(user: user);
 
-          // User user = User(email: _email, isTeacher: isTeacher);
-          // AppPrefernces().save(user: user);
-
-          // if (isTeacher) {
-           // Navigator.pushReplacementNamed(context, AdminHome.id);
-          // } else {
-         //    Navigator.pushReplacementNamed(context, HomeScreen.id);
-          // }
-        }catch(e){
-          modelHud.changeIsLoading(false);
-          var indexStartMessage =e.toString().indexOf(' ', 0);
-          // Scaffold.of(context).showSnackBar(SnackBar(
-          //   content: Text(
-          //         '${e.toString().substring(indexStartMessage)}'
-          //
-          //   ),
-          // )
-          //
-          // );
-          showSnackBar(context: context, content: '${e.toString().substring(indexStartMessage)}', error: true);
-
-        }
-
-    }
+                          // if (isTeacher) {
+                          // Navigator.pushReplacementNamed(context, AdminHome.id);
+                          // } else {
+                          //    Navigator.pushReplacementNamed(context, HomeScreen.id);
+                          // }
+                        } catch (e) {
+                          modelHud.changeIsLoading(false);
+                          var indexStartMessage = e.toString().indexOf(' ', 0);
+                          // Scaffold.of(context).showSnackBar(SnackBar(
+                          //   content: Text(
+                          //         '${e.toString().substring(indexStartMessage)}'
+                          //
+                          //   ),
+                          // )
+                          //
+                          // );
+                          showSnackBar(
+                              context: context,
+                              content:
+                                  '${e.toString().substring(indexStartMessage)}',
+                              error: true);
+                        }
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

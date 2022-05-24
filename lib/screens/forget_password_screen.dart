@@ -41,7 +41,6 @@ class _LoginScreenState extends State<ForgetPasswordScreen> {
           child: ListView(
             children: [
               Text('Forget password...'),
-
               AppIconWidget(),
               SizedBox(
                 height: height * .09,

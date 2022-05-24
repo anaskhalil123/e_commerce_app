@@ -7,6 +7,7 @@ class Product{
   late int imageInt;
   late String category;
   late String description;
+  // TODO Location will ber removed
   late String location;
   var price;
 
