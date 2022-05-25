@@ -25,7 +25,7 @@ class _AddProductState extends State<AddProduct>  with Helpers {
   //using variables instead of controllers
   late String name, price, desc, category, location;
 
-   var imageProduct;
+    String imageProduct = "";
 
   TextEditingController _titleTextController = TextEditingController();
 
@@ -56,106 +56,104 @@ ImagePicker imagePicker = ImagePicker();
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'ADD PRODUCT',
+          'Add product',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
+
       body: Form(
         key: _globalKey,
-        child: Container(
-          height: height,
-          width: width,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: (height * 0.25)),
-              child: Column(
-                children: [
-LinearProgressIndicator(
-  value: _indicatorValue,
-  backgroundColor: Colors.grey.shade500,
-  color: Colors.green,
-  minHeight: 5,
+         child:Container(
 
-),
+             child:
 
-                 // Expanded(
-                 //     child: Image
-                 // ),
-                 // Image(image: ImageIcon(Icons.image)),
-                  CustomTextField(
-                      controller: _titleTextController, hint: 'Product Name'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                      controller: _priceTextController, hint: 'Product Price'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                      controller: _descriptionTextController,
-                      hint: 'Product Description'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                      controller: _categoryTextController,
-                      hint: 'Product Category'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                      controller: _locationTextController,
-                      hint: 'Product Location'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: _pickedFile != null
-                    ?Image.file(File(_pickedFile!.path))
-                    :TextButton(onPressed: () async{
-                     await pickImage();
-                    }, child: Text('PICK IMAGE'),
-                    style: TextButton.styleFrom(minimumSize: Size(double.infinity, 50)),),
-                  ),
-                  /*
-                  ElevatedButton(
-                    child: Text('Add Image'),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 50)
-                    ),
-                    onPressed: () async {
-                Navigator.pushNamed(context, '/select_image_screen');
-
-                    },
-                  ),
-
-*/
-// Text('add image'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    child: Text('Add Product'),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 50)
-                    ),
-                    onPressed: () async {
-                      if (_globalKey.currentState!.validate()) {
-                        print('data is validated');
-                        _globalKey.currentState!.save();
-                        await uploadImage();
+              SingleChildScrollView(
 
 
-                      }
-                    },
-                  ),
-                ],
+                child: Column(
+                    children: [
+                      LinearProgressIndicator(
+                        value: _indicatorValue,
+                        backgroundColor: Colors.grey.shade500,
+                        color: Colors.green,
+                        minHeight: 5,
+
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: (50), horizontal: 20),
+                        child: Column(
+                          children: [
+
+
+                            // Expanded(
+                            //     child: Image
+                            // ),
+                            // Image(image: ImageIcon(Icons.image)),
+                            CustomTextField(
+                                controller: _titleTextController, hint: 'Product Name'),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomTextField(
+                                controller: _priceTextController, hint: 'Product Price'),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomTextField(
+                                controller: _descriptionTextController,
+                                hint: 'Product Description'),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomTextField(
+                                controller: _categoryTextController,
+                                hint: 'Product Category'),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            Container(
+
+                              child: _pickedFile != null
+                                  ?Image.file(File(_pickedFile!.path), height: 200,)
+                                  :TextButton(onPressed: () async{
+                                await pickImage();
+                              }, child: Text('PICK IMAGE'),
+                                style: TextButton.styleFrom(minimumSize: Size(double.infinity, 50), backgroundColor: Colors.amber.shade100),),
+
+                            ),
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ElevatedButton(
+                              child: Text('Add Product'),
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(double.infinity, 50)
+                              ),
+                              onPressed: () async {
+                                if (_globalKey.currentState!.validate()) {
+                                  print('data is validated');
+                                  _globalKey.currentState!.save();
+                                  await uploadImage();
+
+
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
+
+
+         )
+
+         )
+
     );
   }
 
@@ -170,8 +168,8 @@ LinearProgressIndicator(
     if (_titleTextController.text.isNotEmpty &&
         _descriptionTextController.text.isNotEmpty &&
         _categoryTextController.text.isNotEmpty &&
-        _priceTextController.text.isNotEmpty &&
-        _locationTextController.text.isNotEmpty) {
+        _priceTextController.text.isNotEmpty
+    ) {//&& imageProduct != ""
       return true;
     }
     showSnackBar(context: _context, content: 'Enter requred data', error: true);
@@ -189,11 +187,10 @@ LinearProgressIndicator(
   Product get product {
     Product product = Product();
     product.title = _titleTextController.text;
-    product.image = imageProduct.toString();
+    product.image = imageProduct;
     product.price = _priceTextController.text;
     product.category = _categoryTextController.text;
     product.description = _descriptionTextController.text;
-    product.location = _locationTextController.text;
 
     return product;
   }
@@ -226,10 +223,10 @@ LinearProgressIndicator(
               //SUCCESS
            //   imageProduct = reference!.fullPath;
 
-              imageProduct = reference?.fullPath;
+               imageProduct = await reference!.getDownloadURL();
              await performSave();
               changeIndicatorValue(1);
-              showSnackBar(context: context, content: '$message \n $imageProduct', );
+
             } else {
               if (state == TaskState.running) {
                 //UPLOADING

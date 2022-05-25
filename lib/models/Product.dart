@@ -1,4 +1,6 @@
 
+import 'package:firebase_storage/firebase_storage.dart';
+
 class Product{
   late String path;
   late String id;
@@ -7,8 +9,7 @@ class Product{
   late int imageInt;
   late String category;
   late String description;
-  // TODO Location will ber removed
-  late String location;
+
   var price;
 
   Product();
@@ -19,7 +20,6 @@ class Product{
     price = map['price'];
     category = map['category'];
     description = map['description'];
-    location = map['location'];
 
   }
 
@@ -31,7 +31,6 @@ class Product{
     map['price'] = price;
     map['category'] = category;
     map['description'] = description;
-    map['location'] = location;
     return map;
   }
 

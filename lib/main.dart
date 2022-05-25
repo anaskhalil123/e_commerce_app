@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/launch_screen',
-        // initialRoute: AdminHome.id,
+        //initialRoute: '/launch_screen',
+         initialRoute: AdminHome.id,
         routes: {
           '/launch_screen': (context) => LaunchScreen(),
           LoginScreen.id: (context) => LoginScreen(),

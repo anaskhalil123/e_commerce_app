@@ -39,15 +39,19 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
         child: Form(
           key: _globalKey,
           child: ListView(
+            padding: EdgeInsets.symmetric(vertical: (50), horizontal: 20),
             children: [
               AppIconWidget(),
               SizedBox(
                 height: height * .09,
               ),
+
               CustomTextField(
+
                 controller: this.emailController,
                 hint: 'Enter Email',
                 icon: Icons.email,
+
               ),
               SizedBox(
                 height: height * .02,
@@ -86,7 +90,8 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: (MediaQuery.of(context).size.width) * .31),
+                    horizontal: (MediaQuery.of(context).size.width) * .20),
+
                 child: Builder(
                   builder: (context) => ElevatedButton(
                     onPressed: () async {
