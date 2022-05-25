@@ -26,33 +26,13 @@ class EditProduct extends StatefulWidget {
 class _EditProductState extends State<EditProduct> with Helpers{
 
 
-  // final List<ProductIner> _products = [
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket06.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket01.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket02.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket04.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket05.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket08.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket07.jpeg'),
-  //   ProductIner('jacket', '30', 'Jackets', "jacker desc......",
-  //       'images/juckets/jacket01.jpeg')
-  // ];
   
-  
-  var imageProduct;
+  String imageProduct = "";
 
   late TextEditingController _titleTextController;
   late TextEditingController _descriptionTextController;
   late TextEditingController _categoryTextController;
   late TextEditingController _priceTextController;
-  late TextEditingController _locationTextController;
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
 
@@ -70,6 +50,7 @@ class _EditProductState extends State<EditProduct> with Helpers{
     _descriptionTextController = TextEditingController(text: widget.product?.description ?? '');
     _categoryTextController = TextEditingController(text: widget.product?.category ?? '');
     _priceTextController = TextEditingController(text: widget.product?.price ?? '');
+    imageProduct = widget.product?.image ?? '';
 
   }
 
@@ -79,7 +60,7 @@ void dispose() {
   _descriptionTextController.dispose();
   _categoryTextController.dispose();
   _priceTextController.dispose();
-  _locationTextController.dispose();
+
 
     super.dispose();
 
@@ -122,11 +103,6 @@ void dispose() {
                       child: Column(
                         children: [
 
-
-                          // Expanded(
-                          //     child: Image
-                          // ),
-                          // Image(image: ImageIcon(Icons.image)),
                           CustomTextField(
                               controller: _titleTextController, hint: 'Product Name'),
                           const SizedBox(
@@ -149,35 +125,26 @@ void dispose() {
                           const SizedBox(
                             height: 10,
                           ),
-                          CustomTextField(
-                              controller: _locationTextController,
-                              hint: 'Product Location'),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Container(
+
+                          GestureDetector(
+                            onTap: () async{
+                              await pickImage();
+                            },
 
                             child: _pickedFile != null
-                                ?Image.file(File(_pickedFile!.path))
-                                :TextButton(onPressed: () async{
-                              await pickImage();
-                            }, child: Text('PICK IMAGE'),
-                              style: TextButton.styleFrom(minimumSize: Size(double.infinity, 50), backgroundColor: Colors.amber.shade100),),
+                                ?Image.file(File(_pickedFile!.path), height: 220)
+                                : Image.network(product.image, height: 220,
+                              errorBuilder:
+                                  (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                return
+                                  //const Image(image: AssetImage('images/icons/placeholder.png',), fit:BoxFit.cover);
+                                  Image.network('https://firebasestorage.googleapis.com/v0/b/buy-it-73d4f.appspot.com/o/placeholder.png?alt=media&token=e0863ab9-be10-4ed8-8697-c5a9ca6b1746',
+                                    fit:BoxFit.cover ,);
+                              },
+                            )
+
                           ),
-                          /*
-                  ElevatedButton(
-                    child: Text('Add Image'),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 50)
-                    ),
-                    onPressed: () async {
-                Navigator.pushNamed(context, '/select_image_screen');
 
-                    },
-                  ),
-
-*/
-// Text('add image'),
                           const SizedBox(
                             height: 10,
                           ),
@@ -204,84 +171,8 @@ void dispose() {
             ),
           ),
         ));
-      
-      /*
-      GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            childAspectRatio: .8,
-          ),
-          itemBuilder: (context, index) => GestureDetector(
-                onTapUp: (details) {
-                  // position in x axis
-                  double dx = details.globalPosition.dx;
-                  double dy = details.globalPosition.dy;
-                  // distance between the item and the right side of the mobile (المسافة التي يبعد عنها العنصر بالنسبة ليمين الحوال)
-                  double dx2 = (MediaQuery.of(context).size.width) - dx;
-                  double dy2 = (MediaQuery.of(context).size.height) - dy;
 
-                  showMenu(
-                      context: context,
-                      position: RelativeRect.fromLTRB(dx, dy, dx2, dy2),
-                      items: [
-                        PopupMenuItem(child: Text('Edit')),
-                        PopupMenuItem(child: Text('Delete')),
-                      ]);
-                },
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage(_products[index].imageLocation),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      child: Opacity(
-                        opacity: .6,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 60,
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(_products[index].name,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                Text('\$ ${_products[index].price}',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-          itemCount: _products.length),
-      
-      
-      
-      */
-   // );
   }
-
-  // @override
-  // void initState() {
-  //
-  //   super.initState();
-  // }
-
-  //void getProducts() {}
 
   Future<void> performSave() async {
     if (checkData()) {
@@ -293,8 +184,8 @@ void dispose() {
     if (_titleTextController.text.isNotEmpty &&
         _descriptionTextController.text.isNotEmpty &&
         _categoryTextController.text.isNotEmpty &&
-        _priceTextController.text.isNotEmpty &&
-        _locationTextController.text.isNotEmpty) {
+        _priceTextController.text.isNotEmpty
+        && imageProduct != "") {
       return true;
     }
     showSnackBar(context: context, content: 'Enter requred data', error: true);
@@ -341,10 +232,10 @@ void dispose() {
               //SUCCESS
               //   imageProduct = reference!.fullPath;
 
-              imageProduct = reference!;
+              imageProduct = await reference!.getDownloadURL();
               await performSave();
               changeIndicatorValue(1);
-              showSnackBar(context: context, content: '$message \n $imageProduct', );
+
             } else {
               if (state == TaskState.running) {
                 //UPLOADING
@@ -372,15 +263,3 @@ void dispose() {
 
 }
 
-
-
-
-// class ProductIner {
-//   late String name;
-//   late String price;
-//   late String desc;
-//   late String category;
-//   late String imageLocation;
-//
-//   ProductIner(this.name, this.price, this.category, this.desc, this.imageLocation);
-// }

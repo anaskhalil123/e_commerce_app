@@ -85,11 +85,6 @@ ImagePicker imagePicker = ImagePicker();
                         child: Column(
                           children: [
 
-
-                            // Expanded(
-                            //     child: Image
-                            // ),
-                            // Image(image: ImageIcon(Icons.image)),
                             CustomTextField(
                                 controller: _titleTextController, hint: 'Product Name'),
                             const SizedBox(
@@ -113,10 +108,13 @@ ImagePicker imagePicker = ImagePicker();
                               height: 10,
                             ),
 
-                            Container(
+                            GestureDetector(
+                              onTap: ()async{
+                                await pickImage();
+                              },
 
                               child: _pickedFile != null
-                                  ?Image.file(File(_pickedFile!.path), height: 200,)
+                                  ?Image.file(File(_pickedFile!.path), height: 220,)
                                   :TextButton(onPressed: () async{
                                 await pickImage();
                               }, child: Text('PICK IMAGE'),
@@ -169,7 +167,7 @@ ImagePicker imagePicker = ImagePicker();
         _descriptionTextController.text.isNotEmpty &&
         _categoryTextController.text.isNotEmpty &&
         _priceTextController.text.isNotEmpty
-    ) {//&& imageProduct != ""
+    && imageProduct != "") {
       return true;
     }
     showSnackBar(context: _context, content: 'Enter requred data', error: true);
@@ -221,7 +219,6 @@ ImagePicker imagePicker = ImagePicker();
           eventHandler: (bool status, TaskState state, String message, {Reference? reference}) async {
             if (status) {
               //SUCCESS
-           //   imageProduct = reference!.fullPath;
 
                imageProduct = await reference!.getDownloadURL();
              await performSave();

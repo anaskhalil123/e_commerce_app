@@ -30,10 +30,6 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
 
       ),
 
-      /*
-      StreamBuilder<QuerySnapshot>(
-        stream: FireStoreCotroller().read(),
-       */
 
       body:Padding(
       padding: const EdgeInsets.all(20),
@@ -55,24 +51,12 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
 
                   minimumSize: Size(80, 80)),
 
-              //_upload('camera')
-              // icon: const Icon(Icons.add),
-              // label: const Text('Add product')
-
-
             ),
             SizedBox(height: 10,),
             Text('Add product' , style: TextStyle(fontSize: 12),)
           ],
         ),
 
-
-    //   ElevatedButton.icon(
-    //   onPressed: () {}, //=> _upload('gallery')
-    // icon: const Icon(Icons.library_add),
-    // label: const Text('Gallery')),
-    // ],
-    // ),
           Column(
             children: [
               ElevatedButton(
@@ -217,37 +201,9 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
                     separatorBuilder: (context, index) {
                       return Divider();
                     },
-                   // padding: EdgeInsets.symmetric(horizontal: double.infinity, vertical: 120),
+
                     itemCount: data.length);
-                // return ListView.separated(
-                //   padding: EdgeInsets.symmetric(
-                //     horizontal: 20,
-                //     vertical: 20,
-                //   ),
-                //   children: [
-                //
-                //
-                //     ListView.builder(itemCount: 0,
-                //         physics: NeverScrollableScrollPhysics(),
-                //         shrinkWrap:true,
-                //         itemBuilder: (context, index) {
-                //
-                //       return Card(child: ListTile(
-                //      //   leading: Image.network('dddd'),
-                //         title: Text(data[index].get('title')),
-                //         subtitle: Text(data[index].get('price')),
-                //         onTap:(){
-                //           Navigator.push(context, MaterialPageRoute(builder: (context) => AddProduct()));
-                //         },
-                //         trailing: IconButton(
-                //             onPressed: () async{
-                //               await delete(path: data[index].id);
-                //             }, icon: Icon(Icons.delete)
-                //
-                //         ),),);
-                //     })
-                //   ],
-                // );
+
               } else {
                 return Center(
                     child: Column(
@@ -282,41 +238,7 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
     ),
       ));
 
-    /*
-      Scaffold(
-      body: Scaffold(
-        backgroundColor: kMainColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(
-              width: double.infinity,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AddProduct.id);
-              },
-              child: const Text('Add Product'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, EditProduct.id);
-              },
-              child: const Text('Edit Product'),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('View Orders'),
-            ),
-          ],
-        ),
 
-
-      ),
-    );
-
-    */
   }
 
 
@@ -327,6 +249,7 @@ product.title = snapshot.get('title');
 product.description = snapshot.get('description');
 product.category = snapshot.get('category');
 product.price = snapshot.get('price');
+product.image = snapshot.get('image');
 
 
 return product;
