@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/models/bn_screen.dart';
-import 'package:e_commerce_app/screens/user/categories_screen.dart';
+import 'package:e_commerce_app/screens/user/cart_screen.dart';
 import 'package:e_commerce_app/screens/user/products_screen.dart';
 import 'package:e_commerce_app/screens/user/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
