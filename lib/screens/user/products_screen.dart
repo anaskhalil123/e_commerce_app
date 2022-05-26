@@ -86,8 +86,14 @@ margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                         padding: const EdgeInsets.all(8.0),
                         child:  GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, ProductDetails.id,
-                                  arguments: data[index]);
+
+                              Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductDetails(product: getProduct(data[index]), path: data[index].id)
+                                  // MaterialPageRoute(
+                                  //     builder: (context) => ProductDetails( getProduct(data[index]), data[index].id))
+                              //)
+                              ));
                             },
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -318,5 +324,20 @@ margin: EdgeInsets.only(top: 10),
     } else {
       return Image.asset('images/juckets/jacket07.jpeg').image;
     }
+  }
+
+
+  Product getProduct(QueryDocumentSnapshot snapshot){
+    Product product = Product();
+    product.path = snapshot.id;
+    product.title = snapshot.get('title');
+    product.description = snapshot.get('description');
+    product.category = snapshot.get('category');
+    product.price = snapshot.get('price');
+    product.image = snapshot.get('image');
+
+
+    return product;
+
   }
 }

@@ -10,30 +10,38 @@ import '../../provider/cartItem.dart';
 
 class ProductDetails extends StatefulWidget {
   static String id = 'ProductDetails';
+  final Product? product;
+  final String? path;
+
+  ProductDetails({required this.product,required this.path});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> with Helpers {
-  num _quantity = 1;
+  int _quantity = 1;
 
   @override
   Widget build(BuildContext context) {
-    DocumentSnapshot? product =
-        ModalRoute.of(context)!.settings.arguments as DocumentSnapshot?;
-    String url = product!.get('image');
+    // DocumentSnapshot? product =
+    //     ModalRoute.of(context)!.settings.arguments as DocumentSnapshot?;
+    // String url = product!.get('image');
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      // appBar: AppBar(
+      //
+      // ),
       body: Stack(
         fit: StackFit.expand,
         children: [
           Container(
-            child: Image.network(url),
+            child: Image.network(widget.product!.image,),
             alignment: Alignment.topCenter,
-            height: 220,
+       height: 220,
+
           ),
           // Image(
           //   alignment: Alignment.topCenter,
@@ -81,7 +89,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                               child: Icon(Icons.title),
                             ),
                             TextSpan(
-                              text: '   ${product.get('title')}',
+                              text: '   ${widget.product!.title}',
                             )
                           ]),
                     ),
@@ -97,7 +105,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                               child: Icon(Icons.category),
                             ),
                             TextSpan(
-                              text: '   ${product.get('description')}',
+                              text: '   ${widget.product!.description}',
                             )
                           ]),
                     ),
@@ -114,7 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                               child: Icon(Icons.price_change),
                             ),
                             TextSpan(
-                              text: '   ${product.get('price')}',
+                              text: '   ${widget.product!.price}',
                             )
                           ]),
                     ),
@@ -188,6 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                   style: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+                  /*
                   //car item
                   CartItem cartItem =
                       Provider.of<CartItem>(context, listen: false);
@@ -200,12 +209,15 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                   map['category'] = product.get('category');
                   // TODO Location will ber removed
                   print(map.toString());
+                  */
 
                   // add product to product in cart
                   // cartItem.addProduct(Product.fromMap(map), _quantaty);
-               //   showSnackBar(context: context, content: 'wait');
+                  //   showSnackBar(context: context, content: 'wait');
                   //   bool isAdded = await   FireStoreCotroller().addToCart(path: product.get('image'), quantity: _quantity);
-       //   await addToCart(product.get('path'));
+
+                  await addToCart('${widget.path}');
+
                 },
               ),
             ),
@@ -215,17 +227,20 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
     );
   }
 
-  Future<void> addToCart(String id) async{
-    final isAdded = await FireStoreCotroller().addToCart(path: id, quantity: _quantity);
-
+  Future<void> addToCart(String id) async {
+    bool status =
+        await FireStoreCotroller().addToCart(path: id, quantity: _quantity);
+    if (status) {
+      showSnackBar(context: context, content: 'Product Deleted successfuly');
+    }
+    /*
     if (isAdded) {
       showSnackBar(context: context, content: 'Added to Cart');
     } else {
       showSnackBar(
-          context: context,
-          content: 'Failed add to Cart',
-          error: true);
+          context: context, content: 'Failed add to Cart', error: true);
     }
+    */
   }
 
   subTractCount() {

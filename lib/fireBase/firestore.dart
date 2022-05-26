@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStoreCotroller{
 
-  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
 
   Future<bool> storeUser({required Userm user}) async{
@@ -72,13 +72,13 @@ class FireStoreCotroller{
    }
 
 
-   Future<bool> addToCart({required String path, required num quantity}) async{
+   Future<bool> addToCart({required String path, required int quantity}) async{
     // final _auth = FirebaseAuth.instance;
     var hashmap =HashMap<String, dynamic>();
      hashmap['id'] = path;
     hashmap['quantity'] = quantity;
 
-     return await _firebaseFirestore.collection('Users2').add(hashmap).then((value) {
+     return await _firebaseFirestore.collection('Users').doc('zDuIrO3wdce6bDfTCWyK7XfvJ043').collection('MyCart').doc('${path}').set(hashmap).then((value) {
        //DocumentReference reference = value1;
        //.doc('zDuIrO3wdce6bDfTCWyK7XfvJ043').collection('MyCart').doc('${path}').set(hashmap)
        return true;

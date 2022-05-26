@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.id: (context) => HomeScreen(),
           AdminHome.id: (context) => AdminHome(),
           AddProduct.id: (context) => AddProduct(),
-          ProductDetails.id: (context) => ProductDetails(),
+         // ProductDetails.id: (context) => ProductDetails(),
           '/select_image_screen': (context) => SelectImageScreeen(),
      '/search_screen': (context) => SearchScreen(),
         },
