@@ -104,24 +104,25 @@ void dispose() {
                         children: [
 
                           CustomTextField(
-                              controller: _titleTextController, hint: 'Product Name'),
+                              controller: _titleTextController, hint: 'Product Name', isNumber: false,),
                           const SizedBox(
                             height: 10,
                           ),
                           CustomTextField(
-                              controller: _priceTextController, hint: 'Product Price'),
+                            controller: _descriptionTextController,
+                            hint: 'Product Description', isNumber: false,),
                           const SizedBox(
                             height: 10,
                           ),
                           CustomTextField(
-                              controller: _descriptionTextController,
-                              hint: 'Product Description'),
+                            controller: _priceTextController, hint: 'Product Price', isNumber: true,),
+
                           const SizedBox(
                             height: 10,
                           ),
                           CustomTextField(
                               controller: _categoryTextController,
-                              hint: 'Product Category'),
+                              hint: 'Product Category', isNumber: false,),
                           const SizedBox(
                             height: 10,
                           ),
@@ -157,7 +158,7 @@ void dispose() {
                               if (_globalKey.currentState!.validate()) {
                                 print('data is validated');
                                 _globalKey.currentState!.save();
-                                await uploadImage();
+                                await performSave();
 
 
                               }
@@ -176,6 +177,12 @@ void dispose() {
 
   Future<void> performSave() async {
     if (checkData()) {
+      if(imageProduct != widget.product!.image){
+        await uploadImage();
+      }else{
+        changeIndicatorValue(null);
+      }
+
       await update();
     }
   }
@@ -195,6 +202,7 @@ void dispose() {
   Future<void> update() async {
     bool status = await FireStoreCotroller().update(path: widget.product!.path, product: product);
     if (status) {
+      changeIndicatorValue(1);
       showSnackBar(context: context, content: 'product Edited successfully ');
       Navigator.pop(context);
     }
@@ -233,7 +241,7 @@ void dispose() {
               //   imageProduct = reference!.fullPath;
 
               imageProduct = await reference!.getDownloadURL();
-              await performSave();
+
               changeIndicatorValue(1);
 
             } else {

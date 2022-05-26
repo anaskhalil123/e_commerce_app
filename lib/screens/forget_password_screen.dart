@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../fireBase/auth.dart';
-import '../models/User.dart';
+import '../models/UserModel.dart';
 import '../provider/modelHud.dart';
 import '../widgets/CustomTextField.dart';
 import 'user/home_screen.dart';
@@ -49,6 +49,7 @@ class _LoginScreenState extends State<ForgetPasswordScreen> {
                 controller: this.emailController,
                 hint: 'Enter Email to recevive reset link',
                 icon: Icons.email,
+                isNumber: false,
               ),
 
               SizedBox(

@@ -8,6 +8,8 @@ class CustomTextField extends StatelessWidget {
   late final IconData? icon;
   late final TextEditingController? controller;
 
+  late final isNumber;
+
   String? _errorMessage(String? str) {
     if (str!.isEmpty) {
       switch (hint) {
@@ -24,7 +26,7 @@ class CustomTextField extends StatelessWidget {
     }
   }
 
-  CustomTextField({this.icon, required this.hint, this.controller});
+  CustomTextField({this.icon, required this.hint, this.controller, required this.isNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,8 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         validator: _errorMessage,
         cursorColor: kMainColor,
+      keyboardType: isNumber== true ? TextInputType.number : TextInputType.text,
+
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: const TextStyle(color: Colors.black26),

@@ -8,7 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../fireBase/auth.dart';
-import '../models/User.dart';
+import '../models/UserModel.dart';
 import '../provider/modelHud.dart';
 import '../widgets/CustomTextField.dart';
 
@@ -51,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                 controller: this.emailController,
                 hint: 'Enter Email',
                 icon: Icons.email,
+                isNumber: false,
 
               ),
               SizedBox(
@@ -60,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                 controller: passwordController,
                 icon: Icons.lock,
                 hint: 'Enter Password',
+                isNumber: false,
               ),
               SizedBox(
                 height: height * .01,
@@ -111,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                           modelHud.changeIsLoading(false);
                           final snapshot = await FireStoreCotroller()
                               .getMyInformation(id: result.user!.uid);
-                          User user = User(snapshot.id, snapshot.get('title'),
+                          Userm user = Userm(snapshot.id, snapshot.get('title'),
                               snapshot.get('email'), snapshot.get('isTeacher'));
 
                           //   showSnackBar(context: context, content: '$user');

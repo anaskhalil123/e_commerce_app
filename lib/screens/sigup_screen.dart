@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/fireBase/auth.dart';
 import 'package:e_commerce_app/fireBase/firestore.dart';
-import 'package:e_commerce_app/models/User.dart';
+import 'package:e_commerce_app/models/UserModel.dart';
 import 'package:e_commerce_app/preferences/app_preferences.dart';
 import 'package:e_commerce_app/provider/modelHud.dart';
 import 'package:e_commerce_app/screens/admin/admin_home_screen.dart';
@@ -57,6 +57,7 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
                 controller: nameController,
                 icon: Icons.perm_identity,
                 hint: 'Enter Full Name',
+                isNumber: false,
               ),
               SizedBox(
                 height: height * .02,
@@ -65,6 +66,7 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
                 controller: emailController,
                 hint: 'Enter Email',
                 icon: Icons.email,
+                isNumber: false,
               ),
               SizedBox(
                 height: height * .02,
@@ -73,6 +75,7 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
                 controller: passwordController,
                 icon: Icons.lock,
                 hint: 'Enter Password',
+                isNumber: false,
               ),
               SizedBox(
                 height: height * .01,
@@ -137,11 +140,10 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
                             print(result.user!.email);
 
                             // User user = User(id: result.user!.uid,name: _name, email: _email, isTeacher: isTeacher);
-                            User user = User(
+                            Userm user = Userm(
                                 result.user!.uid, _name, _email, isTeacher);
                             AppPrefernces().save(user: user);
-                            final storeUser = await FireStoreCotroller()
-                                .storeUser(user: user);
+                            final storeUser = await FireStoreCotroller().storeUser(user: user);
 
                             if (isTeacher) {
                               Navigator.pushReplacementNamed(

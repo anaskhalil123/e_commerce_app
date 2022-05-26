@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/User.dart';
+import '../models/UserModel.dart';
 
 class AppPrefernces {
   static final AppPrefernces _instance = AppPrefernces._internal();
@@ -16,7 +16,7 @@ class AppPrefernces {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<void> save({required User user}) async {
+  Future<void> save({required Userm user}) async {
     await _sharedPreferences.setBool('logged_in', true);
     await _sharedPreferences.setString('email', user.email);
     await _sharedPreferences.setString('name', user.name);

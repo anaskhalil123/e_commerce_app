@@ -3,12 +3,14 @@ import 'dart:io';
 
 import 'package:e_commerce_app/fireBase/firestore.dart';
 import 'package:e_commerce_app/fireBase/storage_controller.dart';
+import 'package:e_commerce_app/provider/selectedCategory.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:e_commerce_app/widgets/CustomTextField.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/Product.dart';
 
@@ -28,14 +30,8 @@ class _AddProductState extends State<AddProduct>  with Helpers {
     String imageProduct = "";
 
   TextEditingController _titleTextController = TextEditingController();
-
   TextEditingController _descriptionTextController = TextEditingController();
-
-  TextEditingController _categoryTextController = TextEditingController();
-
   TextEditingController _priceTextController = TextEditingController();
-
-  TextEditingController _locationTextController = TextEditingController();
 
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
@@ -49,6 +45,17 @@ ImagePicker imagePicker = ImagePicker();
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    String category = '';
+    Provider.of<SelectedCategory>(context).changeCategory( Provider.of<SelectedCategory>(context).items2[0]);
+
+    // List of items in our dropdown menu
+    // var items = [
+    //   'Item 1',
+    //   'Item 2',
+    //   'Item 3',
+    //   'Item 4',
+    //   'Item 5',
+    // ];
     _context = context;
     return Scaffold(
       appBar: AppBar(
@@ -86,28 +93,81 @@ ImagePicker imagePicker = ImagePicker();
                           children: [
 
                             CustomTextField(
-                                controller: _titleTextController, hint: 'Product Name'),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomTextField(
-                                controller: _priceTextController, hint: 'Product Price'),
+                                controller: _titleTextController, hint: 'Product Name', isNumber: false),
                             const SizedBox(
                               height: 10,
                             ),
                             CustomTextField(
                                 controller: _descriptionTextController,
-                                hint: 'Product Description'),
+                                hint: 'Product Description',  isNumber: false),
+
                             const SizedBox(
                               height: 10,
                             ),
                             CustomTextField(
-                                controller: _categoryTextController,
-                                hint: 'Product Category'),
+                                controller: _priceTextController, hint: 'Product Price', isNumber: true,),
+                            const SizedBox(
+                              height: 20,
+                            ),
+
+                            // DropdownButton(items: [], onChanged: onChanged)
+                            // PopupMenuButton(
+                            //     icon: Icon(Icons.arrow_drop_down),
+                            //     itemBuilder: (context){
+                            //
+                            //   return[];
+                            // }),
+                            Container(
+                              width: width,
+                           height: 55,
+
+
+
+                             child:
+                              DecoratedBox(
+
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade100,
+
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+
+                                child: DropdownButton(
+
+                                  isExpanded: true,
+
+                                  // Initial Value
+                                  value: Provider.of<SelectedCategory>(context).category,
+
+                                  // Down Arrow Icon
+                                  icon: const Icon(Icons.keyboard_arrow_down),
+
+                                  // Array list of items
+                                  items: Provider.of<SelectedCategory>(context).items2.map((String items) {
+
+
+                                    return DropdownMenuItem(
+                                      value: items,
+                                      child: Text(items),
+                                    );
+                                  }).toList(),
+                                  // After selecting the desired option,it will
+                                  // change button value to selected value
+                                  onChanged: (String? newValue) {
+                                    Provider.of<SelectedCategory>(context, listen: false).changeCategory(newValue!);
+                                    category = newValue;
+                                    // setState(() {
+                                    //   dropdownvalue = newValue!;
+                                    // });
+                                  },
+
+
+                                ),
+                              ),
+                           ),
                             const SizedBox(
                               height: 10,
                             ),
-
                             GestureDetector(
                               onTap: ()async{
                                 await pickImage();
@@ -118,12 +178,12 @@ ImagePicker imagePicker = ImagePicker();
                                   :TextButton(onPressed: () async{
                                 await pickImage();
                               }, child: Text('PICK IMAGE'),
-                                style: TextButton.styleFrom(minimumSize: Size(double.infinity, 50), backgroundColor: Colors.amber.shade100),),
+                                style: TextButton.styleFrom(minimumSize: Size(double.infinity, 50), backgroundColor: Colors.blue.shade100),),
 
                             ),
 
                             const SizedBox(
-                              height: 10,
+                              height: 40,
                             ),
                             ElevatedButton(
                               child: Text('Add Product'),
@@ -165,7 +225,7 @@ ImagePicker imagePicker = ImagePicker();
   bool checkData() {
     if (_titleTextController.text.isNotEmpty &&
         _descriptionTextController.text.isNotEmpty &&
-        _categoryTextController.text.isNotEmpty &&
+        category.isNotEmpty &&
         _priceTextController.text.isNotEmpty
     && imageProduct != "") {
       return true;
@@ -187,7 +247,7 @@ ImagePicker imagePicker = ImagePicker();
     product.title = _titleTextController.text;
     product.image = imageProduct;
     product.price = _priceTextController.text;
-    product.category = _categoryTextController.text;
+    product.category = category;
     product.description = _descriptionTextController.text;
 
     return product;
@@ -196,9 +256,7 @@ ImagePicker imagePicker = ImagePicker();
   void clear() {
     _titleTextController.text = "";
     _descriptionTextController.text = "";
-    _categoryTextController.text = "";
     _priceTextController.text = "";
-    _locationTextController.text = "";
   }
 
   Future<void> pickImage() async{
@@ -248,5 +306,7 @@ ImagePicker imagePicker = ImagePicker();
       _indicatorValue = newValue;
     });
   }
+
+  
 
 }

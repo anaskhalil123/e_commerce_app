@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../fireBase/firestore.dart';
 import '../../provider/cartItem.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -14,8 +15,8 @@ class ProductDetails extends StatefulWidget {
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> with Helpers{
-  num _quantaty = 1;
+class _ProductDetailsState extends State<ProductDetails> with Helpers {
+  num _quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +30,16 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers{
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image(
+          Container(
+            child: Image.network(url),
             alignment: Alignment.topCenter,
-            image: Image.network(url).image,
+            height: 220,
           ),
+          // Image(
+          //   alignment: Alignment.topCenter,
+          //   image: Image.network(url).image,
+          //   height: 220,
+          // ),
           Padding(
               padding: EdgeInsets.fromLTRB(20, height * 0.05, 20, 0),
               child: Container(
@@ -140,7 +147,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers{
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        _quantaty.toString(),
+                        _quantity.toString(),
                         style: TextStyle(fontSize: 20),
                       ),
                       const SizedBox(width: 10),
@@ -180,7 +187,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers{
                   'Add To Cart'.toUpperCase(),
                   style: const TextStyle(color: Colors.white),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   //car item
                   CartItem cartItem =
                       Provider.of<CartItem>(context, listen: false);
@@ -192,13 +199,13 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers{
                   map['price'] = product.get('price');
                   map['category'] = product.get('category');
                   // TODO Location will ber removed
-                  map['location'] = product.get('location');
                   print(map.toString());
 
                   // add product to product in cart
-                  cartItem.addProduct(Product.fromMap(map), _quantaty);
-
-                  showSnackBar(context: context, content: 'Added to Cart');
+                  // cartItem.addProduct(Product.fromMap(map), _quantaty);
+               //   showSnackBar(context: context, content: 'wait');
+                  //   bool isAdded = await   FireStoreCotroller().addToCart(path: product.get('image'), quantity: _quantity);
+       //   await addToCart(product.get('path'));
                 },
               ),
             ),
@@ -208,17 +215,30 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers{
     );
   }
 
+  Future<void> addToCart(String id) async{
+    final isAdded = await FireStoreCotroller().addToCart(path: id, quantity: _quantity);
+
+    if (isAdded) {
+      showSnackBar(context: context, content: 'Added to Cart');
+    } else {
+      showSnackBar(
+          context: context,
+          content: 'Failed add to Cart',
+          error: true);
+    }
+  }
+
   subTractCount() {
-    if (_quantaty > 1) {
+    if (_quantity > 1) {
       setState(() {
-        _quantaty -= 1;
+        _quantity -= 1;
       });
     }
   }
 
   addCount() {
     setState(() {
-      _quantaty += 1;
+      _quantity += 1;
     });
   }
 }

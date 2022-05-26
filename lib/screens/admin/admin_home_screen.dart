@@ -23,6 +23,8 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard', style: TextStyle(color: Colors.white, fontSize: 18),),
@@ -92,13 +94,13 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
                 return ListView.separated(
                   padding: EdgeInsets.symmetric(vertical: 15),
                     itemBuilder: (context, index) {
-                    if(data[index].get('image').toString().isNotEmpty){
 
-                    }else{
 
-                    }
-
-                      return Card(child: Row(
+                      return
+                        // Card(
+                        //   child:
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
                         children: [
 
                           Card(
@@ -111,24 +113,23 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
                           ),
 
 
-                          child:
-                          Container(
+
 
                                      child:
                                     DecoratedBox(
 
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: Colors.grey.shade100,
                                         border: Border.all(),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(vertical: (7), horizontal: 7),
 
                                   //  data[index].get('image') != "" ?
-                                        child:
-
-                                        data[index].get('image') != "" ? Image.network(
+                                        child: data[index].get('image') != "" ? Image.network(
                                         data[index].get('image'),
-                                        fit: BoxFit.cover,
+
                                       loadingBuilder: (BuildContext context, Widget child,
                                           ImageChunkEvent? loadingProgress) {
                                         if (loadingProgress == null) {
@@ -157,45 +158,94 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
                                         ):
                                       //  const Image(image: AssetImage('images/placeholder.png',), fit:BoxFit.cover)
                                         Image.network('https://firebasestorage.googleapis.com/v0/b/buy-it-73d4f.appspot.com/o/placeholder.png?alt=media&token=e0863ab9-be10-4ed8-8697-c5a9ca6b1746',
-                                          fit:BoxFit.cover ,)
+                                          fit:BoxFit.cover ,),
 
+                                        height: 120, width: 120,
                                   ),
-                            height: 120, width: 120,
-                          )
 
                           ),
 
-                          Column(
-                            children: [
-                              Text(data[index].get('title')),
-                              Text(data[index].get('price'))
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () async {
-                                    Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => EditProduct(getProduct(data[index]))));
-                                  },
-                                  icon: Icon(Icons.edit)),
 
-                              IconButton(
+                          ),
+
+                          Container(
+
+                         height: 80,
+
+                            alignment: AlignmentDirectional.topStart,
+                            child: Column(
+
+
+
+                       //    mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+// mainAxisSize: MainAxisSize.max,
+
+
+                              children: [
+                               Container(
+                                 child:  Text(data[index].get('title'),
+                                   style: TextStyle(fontSize: 18,
+                                     fontWeight: FontWeight.bold
+
+                                   ),
+
+                                 ),
+                                 alignment: AlignmentDirectional.topStart,
+                               ),
+                                Container(
+                                  child: Text(data[index].get('price'),
+                                    textAlign: TextAlign.center,
+                                  ) ,
+
+                                  margin: EdgeInsets.only(top: 10),
+                                  alignment: AlignmentDirectional.topStart,
+                                )
+
+                              ],
+                            ),
+                            width: width * 0.4-23,
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+
+                                IconButton(
                                     onPressed: () async {
-                                      await delete(path: data[index].id);
+                                      Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => EditProduct(getProduct(data[index]))));
                                     },
-                                    icon: Icon(Icons.delete)),
+                                    icon: Icon(Icons.edit, color: Colors.blue,),
 
+                               // alignment: AlignmentDirectional.bottomEnd,
+                                ),
 
-                            ],
+                                IconButton(
+                                      onPressed: () async {
+                                        await delete(path: data[index].id);
+                                      },
 
+                                      icon: Icon(Icons.delete, color: Colors.red,),
+
+                                )
+
+                              ],
+
+verticalDirection: VerticalDirection.up,
+                              // crossAxisAlignment: CrossAxisAlignment.end,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+
+                            ),
+
+                            margin: EdgeInsets.only(top: 80,right: 5,),
+
+                            alignment: AlignmentDirectional.bottomEnd,
                           )
 
                         ],
 
-                      )
+                     // )
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -209,13 +259,6 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
                     child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ElevatedButton(
-                      //
-                      onPressed: () {
-                        Navigator.pushNamed(context, AddProduct.id);
-                      },
-                      child: const Text('Add Product'),
-                    ),
                     Icon(
                       Icons.warning,
                       size: 85,

@@ -1,10 +1,10 @@
-class User {
+class Userm {
   late String id;
   late String name;
   late String email;
   late bool isTeacher;
 
-  User(this.id, this.name, this.email, this.isTeacher);
+  Userm(this.id, this.name, this.email, this.isTeacher);
 
   //{required this.id ,required this.name, required this.email, required this.isTeacher}
 
@@ -18,7 +18,7 @@ class User {
     return map;
   }
 
-  User.fromMap(Map<String, dynamic> map) {
+  Userm.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     name = map['name'];
     email = map['email'];
