@@ -99,6 +99,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                                 child: Icon(Icons.category),
                               ),
                               TextSpan(
+                                style: TextStyle(overflow: TextOverflow.ellipsis),
                                 text: '   ${product.get('description')}',
                               )
                             ]),
@@ -113,7 +114,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                                 fontSize: 20, color: Colors.black),
                             children: [
                               const WidgetSpan(
-                                child: Icon(Icons.price_change),
+                                child: Icon(Icons.price_check_rounded),
                               ),
                               TextSpan(
                                 text: '   ${product.get('price')}',
