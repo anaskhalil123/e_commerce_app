@@ -3,30 +3,33 @@ import 'package:e_commerce_app/models/Product.dart';
 
 import '../models/User.dart';
 
-class FireStoreCotroller{
-
+class FireStoreCotroller {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-
-  Future<bool> storeUser({required User user}) async{
-    return await _firebaseFirestore.collection('Users').doc('${user.id}').set(user.toMap()).then((value) {
+  Future<bool> storeUser({required User user}) async {
+    return await _firebaseFirestore
+        .collection('Users')
+        .doc('${user.id}')
+        .set(user.toMap())
+        .then((value) {
       //DocumentReference reference = value1;
       return true;
-    }
-    ).catchError((error) => false);
-
+    }).catchError((error) => false);
   }
 
-  Future<QueryDocumentSnapshot> getMyInformation({required String id}) async{
-    var snapshot = (await _firebaseFirestore.collection('Users').doc(id).snapshots()) as QueryDocumentSnapshot;
+  Future<QueryDocumentSnapshot> getMyInformation({required String id}) async {
+    var snapshot = (await _firebaseFirestore
+        .collection('Users')
+        .doc(id)
+        .snapshots()) as QueryDocumentSnapshot;
 
-
-    QueryDocumentSnapshot query =snapshot.data.hashCode as QueryDocumentSnapshot<Object?>;
+    QueryDocumentSnapshot query =
+        snapshot.data.hashCode as QueryDocumentSnapshot<Object?>;
     return query;
 
     // User user = User(snapshot.id, snapshot.get('title'), snapshot.get('email'), snapshot.get('isTeacher'));
     //User.path = ;
-   // User.title = ;
+    // User.title = ;
     // product.description = snapshot.get('description');
     // product.category = snapshot.get('category');
     // product.price = snapshot.get('price');
@@ -38,32 +41,39 @@ class FireStoreCotroller{
     //return  (await _firebaseFirestore.collection('Users').doc(id).snapshots()) as Map<String, dynamic> ;
   }
 
-   Future<bool> create({required Product product}) async{
-     return await _firebaseFirestore.collection('Products').add(product.toMap()).then((value) {
-       DocumentReference reference = value;
-       return true;
-     }
+  Future<bool> create({required Product product}) async {
+    return await _firebaseFirestore
+        .collection('Products')
+        .add(product.toMap())
+        .then((value) {
+      DocumentReference reference = value;
+      return true;
+    }).catchError((error) => false);
+  }
 
-     ).catchError((error) => false);
+  Stream<QuerySnapshot> read() async* {
+    yield* _firebaseFirestore.collection('Products').snapshots();
+  }
 
-   }
+  Stream<QuerySnapshot> readPerCategory(String category) async* {
+    yield* _firebaseFirestore.collection('Products').where('category',isEqualTo: category.toString()).snapshots();
+  }
 
-   Stream<QuerySnapshot> read() async*{
-     yield* _firebaseFirestore.collection('Products').snapshots();
-   }
-
-   Future<bool> update({required String path, required Product product}) async{
-
-   return await _firebaseFirestore.collection('Products')
+  Future<bool> update({required String path, required Product product}) async {
+    return await _firebaseFirestore
+        .collection('Products')
         .doc(path)
         .update(product.toMap())
         .then((value) => true)
         .catchError((eroor) => false);
+  }
 
-   }
-
-   Future<bool> delete({required String path}) async{
-     return await _firebaseFirestore.collection('Products').doc(path).delete().then((value) => true).catchError((eroor) => false);
-     
-   }
+  Future<bool> delete({required String path}) async {
+    return await _firebaseFirestore
+        .collection('Products')
+        .doc(path)
+        .delete()
+        .then((value) => true)
+        .catchError((eroor) => false);
+  }
 }
