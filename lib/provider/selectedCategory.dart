@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class SelectedCategory extends ChangeNotifier{
-
+class SelectedCategory extends ChangeNotifier {
   var items = [
     'All',
     'Fashion',
@@ -13,7 +12,7 @@ class SelectedCategory extends ChangeNotifier{
     'Home and Kitchen',
     'Toys and Games',
     'Sports and Outdoors',
-'Baby',
+    'Baby',
     'Automotive',
     'Beauty and personal care'
   ];
@@ -33,10 +32,9 @@ class SelectedCategory extends ChangeNotifier{
     'Beauty and personal care'
   ];
 
-  String category = "Fashion";
+  String category = "All";
 
-
-  changeCategory(String value){
+  changeCategory(String value) {
     category = value;
     notifyListeners();
   }
