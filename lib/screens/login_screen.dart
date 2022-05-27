@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/Constants.dart';
 import 'package:e_commerce_app/fireBase/firestore.dart';
 import 'package:e_commerce_app/screens/sigup_screen.dart';
+import 'package:e_commerce_app/screens/user/home_screen.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:e_commerce_app/widgets/AppIconWidget.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,10 @@ import 'package:provider/provider.dart';
 
 import '../fireBase/auth.dart';
 import '../models/UserModel.dart';
+import '../preferences/app_preferences.dart';
 import '../provider/modelHud.dart';
 import '../widgets/CustomTextField.dart';
+import 'admin/admin_home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
@@ -63,30 +66,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                 hint: 'Enter Password',
                 isNumber: false,
               ),
-              SizedBox(
-                height: height * .01,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: isTeacher,
-                      activeColor: kTextFieldColor,
-                      onChanged: (bool? value) {
-                        setState(() {});
-                        if (value != null) isTeacher = value;
-                        print(isTeacher);
-                        return;
-                      },
-                    ),
-                    const Text(
-                      'Admin (admin have a special features)',
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ],
-                ),
-              ),
+
               SizedBox(
                 height: height * .03,
               ),
@@ -111,32 +91,21 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                           final result = await _auth.signIn(_email, _password);
 
                           modelHud.changeIsLoading(false);
-                          final snapshot = await FireStoreCotroller()
-                              .getMyInformation(id: result.user!.uid);
-                          Userm user = Userm(snapshot.id, snapshot.get('title'),
+                          final snapshot = await FireStoreCotroller().getMyInformation(id: result.user!.uid);
+                          Userm user = Userm(snapshot.id, snapshot.get('name'),
                               snapshot.get('email'), snapshot.get('isTeacher'));
 
-                          //   showSnackBar(context: context, content: '$user');
+                           AppPrefernces().save(user: user);
 
-                          // User user = User(email: _email, isTeacher: isTeacher);
-                          // AppPrefernces().save(user: user);
-
-                          // if (isTeacher) {
-                          // Navigator.pushReplacementNamed(context, AdminHome.id);
-                          // } else {
-                          //    Navigator.pushReplacementNamed(context, HomeScreen.id);
-                          // }
+                          if (AppPrefernces().isTheacher) {
+                          Navigator.pushReplacementNamed(context, AdminHome.id);
+                          } else {
+                             Navigator.pushReplacementNamed(context, HomeScreen.id);
+                          }
                         } catch (e) {
                           modelHud.changeIsLoading(false);
                           var indexStartMessage = e.toString().indexOf(' ', 0);
-                          // Scaffold.of(context).showSnackBar(SnackBar(
-                          //   content: Text(
-                          //         '${e.toString().substring(indexStartMessage)}'
-                          //
-                          //   ),
-                          // )
-                          //
-                          // );
+
                           showSnackBar(
                               context: context,
                               content:

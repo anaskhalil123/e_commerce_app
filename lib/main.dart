@@ -1,5 +1,4 @@
-
-
+import 'package:e_commerce_app/firebase_options.dart';
 import 'package:e_commerce_app/preferences/app_preferences.dart';
 import 'package:e_commerce_app/provider/adminMode.dart';
 import 'package:e_commerce_app/provider/cartItem.dart';
@@ -7,6 +6,7 @@ import 'package:e_commerce_app/provider/modelHud.dart';
 import 'package:e_commerce_app/provider/selectedCategory.dart';
 import 'package:e_commerce_app/screens/admin/add_product.dart';
 import 'package:e_commerce_app/screens/admin/admin_home_screen.dart';
+import 'package:e_commerce_app/screens/admin/orders_screen.dart';
 import 'package:e_commerce_app/screens/image_selection_screen.dart';
 import 'package:e_commerce_app/screens/launch_screen.dart';
 import 'package:e_commerce_app/screens/login_screen.dart';
@@ -36,11 +36,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AdminMode>(create: (context) => AdminMode()),
         ChangeNotifierProvider<CartItem>(create: (context) => CartItem()),
         ChangeNotifierProvider<SelectedCategory>(create: (context) => SelectedCategory())
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        //initialRoute: '/launch_screen',
-         initialRoute: HomeScreen.id,
+        initialRoute: '/launch_screen',
+        // initialRoute: AdminHome.id,
         routes: {
           '/launch_screen': (context) => LaunchScreen(),
           LoginScreen.id: (context) => LoginScreen(),
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
           AddProduct.id: (context) => AddProduct(),
          // ProductDetails.id: (context) => ProductDetails(),
           '/select_image_screen': (context) => SelectImageScreeen(),
-          '/search_screen': (context) => SearchScreen(),
+     '/search_screen': (context) => SearchScreen(),
+          OrdersScreen.id: (context) => OrdersScreen(),
         },
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/models/Product.dart';
 import 'package:e_commerce_app/screens/admin/edit_product.dart';
+import 'package:e_commerce_app/screens/admin/orders_screen.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +63,9 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
           Column(
             children: [
               ElevatedButton(
-                onPressed: (){}, child: Icon(Icons.view_comfortable),
+                onPressed: (){
+                  Navigator.pushNamed(context, OrdersScreen.id);
+                }, child: Icon(Icons.view_comfortable),
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size(80, 80)
                 ),

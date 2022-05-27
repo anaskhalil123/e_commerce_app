@@ -1,16 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/models/Product.dart';
+import 'package:e_commerce_app/models/purchase.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../fireBase/firestore.dart';
+import '../../provider/cartItem.dart';
 
 class ProductDetails extends StatefulWidget {
   static String id = 'ProductDetails';
   final Product? product;
   final String? path;
 
-  ProductDetails({required this.product, required this.path});
+  ProductDetails({required this.product,required this.path});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -32,14 +36,15 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
       //
       // ),
       body: Stack(
-        fit: StackFit.expand,
+
         children: [
           Container(
-            child: Image.network(
-              widget.product!.image,
-            ),
+color:Colors.lightBlue.shade100 ,
+            margin: EdgeInsets.only(top: 31),
+            child: Image.network(widget.product!.image,),
             alignment: Alignment.topCenter,
-            height: 220,
+       height: 300,
+
           ),
           // Image(
           //   alignment: Alignment.topCenter,
@@ -103,7 +108,7 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                               child: Icon(Icons.category),
                             ),
                             TextSpan(
-                              text: '   ${widget.product!.description}',
+                              text: '   ${widget.product!.category}',
                             )
                           ]),
                     ),
@@ -172,8 +177,33 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                               )),
                         ),
                       ),
+
+
                     ],
-                  )
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding:
+                    const EdgeInsets.only(top: 10, left: 10, bottom: 5),
+                    child: RichText(
+                      text: TextSpan(
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: 'Total:',
+                            ),
+                            TextSpan(
+                              style: TextStyle(color: Colors.red),
+                              text: """ ${int.parse(widget.product!.price) * _quantity} \$""",
+                            )
+                          ]),
+                    ),
+                  ),
+
+
                 ],
               ),
             ),
@@ -194,27 +224,13 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                   style: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  /*
-                  //car item
-                  CartItem cartItem =
-                      Provider.of<CartItem>(context, listen: false);
-                  // get product from map
-                  Map<String, dynamic> map = Map();
-                  map['title'] = product.get('title');
-                  map['description'] = product.get('description');
-                  map['image'] = product.get('image');
-                  map['price'] = product.get('price');
-                  map['category'] = product.get('category');
-                  // TODO Location will ber removed
-                  print(map.toString());
-                  */
 
-                  // add product to product in cart
-                  // cartItem.addProduct(Product.fromMap(map), _quantaty);
-                  //   showSnackBar(context: context, content: 'wait');
-                  //   bool isAdded = await   FireStoreCotroller().addToCart(path: product.get('image'), quantity: _quantity);
 
-                  await addToCart('${widget.path}');
+                  Purchase purchase  =  Purchase(id: widget.path.toString(), title: widget.product!.title, description: widget.product!.description,
+                  price: '${int.parse(widget.product!.price) * _quantity}', category: widget.product!.category,
+                  image: widget.product!.image, quantity: _quantity);
+                  await addToCart(purchase);
+
                 },
               ),
             ),
@@ -224,20 +240,13 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
     );
   }
 
-  Future<void> addToCart(String id) async {
+  Future<void> addToCart(Purchase purchase) async {
     bool status =
-        await FireStoreCotroller().addToCart(path: id, quantity: _quantity);
+        await FireStoreCotroller().addToCart(purchase: purchase);
     if (status) {
-      showSnackBar(context: context, content: 'Product Deleted successfuly');
-    }
-    /*
-    if (isAdded) {
       showSnackBar(context: context, content: 'Added to Cart');
-    } else {
-      showSnackBar(
-          context: context, content: 'Failed add to Cart', error: true);
     }
-    */
+
   }
 
   subTractCount() {
