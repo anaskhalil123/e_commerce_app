@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/models/bn_screen.dart';
+import 'package:e_commerce_app/preferences/app_preferences.dart';
 import 'package:e_commerce_app/screens/user/cart_screen.dart';
 import 'package:e_commerce_app/screens/user/products_screen.dart';
 import 'package:e_commerce_app/screens/user/profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../fireBase/firestore.dart';
+import '../../models/UserModel.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = "HomeScreen";
@@ -27,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -39,6 +43,9 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     // int sizeItems = Provider.of<SelectedCategory>(context).items.length;
+
+    getDataFromFirestoreToShared();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -76,5 +83,27 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: _screens[_currentIndex].widget,
     );
+  }
+
+  Future<void> getDataFromFirestoreToShared() async {
+    AppPrefernces appPref = AppPrefernces();
+
+    print('id == ' + appPref.myId);
+
+    DocumentSnapshot<Map<String, dynamic>> userData =
+        await FireStoreCotroller().getMyInformation(id: appPref.myId);
+
+    print('writeAboutYourSelf == ' + userData.get('writeAboutYourSelf'));
+
+    Userm user = Userm(
+      userData.get('id'),
+      userData.get('name'),
+      userData.get('email'),
+      userData.get('isAdmin'),
+      userData.get('writeAboutYourSelf') ?? '',
+      userData.get('imagePath') ?? '',
+    );
+
+    appPref.save(user: user);
   }
 }

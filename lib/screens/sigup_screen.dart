@@ -47,7 +47,6 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
           key: _globalKey,
           child: ListView(
             padding: EdgeInsets.symmetric(vertical: (50), horizontal: 20),
-
             children: [
               AppIconWidget(),
               SizedBox(
@@ -91,11 +90,11 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
                         Provider.of<AdminMode>(context, listen: false)
                             .changeIsAdmin(value!);
 
-                        //  isTeacher =  Provider.of<AdminMode>(context, listen: true).isAdmin;
+                        //  isAdmin =  Provider.of<AdminMode>(context, listen: true).isAdmin;
                         //  setState(() {});
                         if (value != null) isAdmin = value;
 
-                        //   print(isTeacher);
+                        //   print(isAdmin);
                         //   return;
                       },
                     ),
@@ -140,10 +139,11 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
                             print(result.user!.email);
 
                             // User user = User(id: result.user!.uid,name: _name, email: _email, isTeacher: isTeacher);
-                            Userm user = Userm(
-                                result.user!.uid, _name, _email, '', isAdmin);
+                            Userm user =
+                                Userm(result.user!.uid, _name, _email, isAdmin);
                             AppPrefernces().save(user: user);
-                            final storeUser = await FireStoreCotroller().storeUser(user: user);
+                            final storeUser = await FireStoreCotroller()
+                                .storeUser(user: user);
 
                             if (isAdmin) {
                               Navigator.pushReplacementNamed(

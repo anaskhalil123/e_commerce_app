@@ -2,10 +2,12 @@ class Userm {
   late String id;
   late String name;
   late String email;
-  late String image;
+  late String? imagePath;
+  late String? writeAboutYourSelf;
   late bool isAdmin;
 
-  Userm(this.id, this.name, this.email, this.image, this.isAdmin);
+  Userm(this.id, this.name, this.email, this.isAdmin,
+      [this.writeAboutYourSelf, this.imagePath]);
 
   //{required this.id ,required this.name, required this.email, required this.isTeacher}
 
@@ -15,6 +17,17 @@ class Userm {
     map['name'] = name;
     map['email'] = email;
     map['isAdmin'] = isAdmin;
+    if (writeAboutYourSelf != null) {
+      map['writeAboutYourSelf'] = writeAboutYourSelf;
+    } else {
+      map['writeAboutYourSelf'] = '';
+    }
+
+    if (imagePath != null) {
+      map['imagePath'] = imagePath;
+    } else {
+      map['imagePath'] = '';
+    }
 
     return map;
   }
@@ -24,6 +37,17 @@ class Userm {
     name = map['name'];
     email = map['email'];
     isAdmin = map['isAdmin'];
+    if (map['writeAboutYourSelf'] != null) {
+      writeAboutYourSelf = map['writeAboutYourSelf'];
+    } else {
+      writeAboutYourSelf = '';
+    }
+
+    if (map['imagePath'] != null) {
+      imagePath = map['imagePath'];
+    } else {
+      imagePath = '';
+    }
   }
 
 // User.fromMap(Map<String, dynamic> map){

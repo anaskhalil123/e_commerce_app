@@ -1,20 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/models/Product.dart';
 import 'package:e_commerce_app/models/purchase.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../fireBase/firestore.dart';
-import '../../provider/cartItem.dart';
 
 class ProductDetails extends StatefulWidget {
   static String id = 'ProductDetails';
   final Product? product;
   final String? path;
 
-  ProductDetails({required this.product,required this.path});
+  ProductDetails({required this.product, required this.path});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -36,15 +33,15 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
       //
       // ),
       body: Stack(
-
         children: [
           Container(
-color:Colors.lightBlue.shade100 ,
+            color: Colors.lightBlue.shade100,
             margin: EdgeInsets.only(top: 31),
-            child: Image.network(widget.product!.image,),
+            child: Image.network(
+              widget.product!.image,
+            ),
             alignment: Alignment.topCenter,
-       height: 300,
-
+            height: 300,
           ),
           // Image(
           //   alignment: Alignment.topCenter,
@@ -177,8 +174,6 @@ color:Colors.lightBlue.shade100 ,
                               )),
                         ),
                       ),
-
-
                     ],
                   ),
                   const SizedBox(
@@ -186,7 +181,7 @@ color:Colors.lightBlue.shade100 ,
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 10, left: 10, bottom: 5),
+                        const EdgeInsets.only(top: 10, left: 10, bottom: 5),
                     child: RichText(
                       text: TextSpan(
                           style: const TextStyle(
@@ -197,13 +192,12 @@ color:Colors.lightBlue.shade100 ,
                             ),
                             TextSpan(
                               style: TextStyle(color: Colors.red),
-                              text: """ ${int.parse(widget.product!.price) * _quantity} \$""",
+                              text:
+                                  """ ${int.parse(widget.product!.price) * _quantity} \$""",
                             )
                           ]),
                     ),
                   ),
-
-
                 ],
               ),
             ),
@@ -224,13 +218,15 @@ color:Colors.lightBlue.shade100 ,
                   style: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-
-
-                  Purchase purchase  =  Purchase(id: widget.path.toString(), title: widget.product!.title, description: widget.product!.description,
-                  price: '${int.parse(widget.product!.price) * _quantity}', category: widget.product!.category,
-                  image: widget.product!.image, quantity: _quantity);
+                  Purchase purchase = Purchase(
+                      id: widget.path.toString(),
+                      title: widget.product!.title,
+                      description: widget.product!.description,
+                      price: '${int.parse(widget.product!.price) * _quantity}',
+                      category: widget.product!.category,
+                      image: widget.product!.image,
+                      quantity: _quantity);
                   await addToCart(purchase);
-
                 },
               ),
             ),
@@ -241,12 +237,10 @@ color:Colors.lightBlue.shade100 ,
   }
 
   Future<void> addToCart(Purchase purchase) async {
-    bool status =
-        await FireStoreCotroller().addToCart(purchase: purchase);
+    bool status = await FireStoreCotroller().addToCart(purchase: purchase);
     if (status) {
       showSnackBar(context: context, content: 'Added to Cart');
     }
-
   }
 
   subTractCount() {

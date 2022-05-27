@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool isTeacher = false;
+  bool isAdmin = false;
   late String _email, _password;
   final _auth = Auth();
 
@@ -93,11 +93,11 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                           modelHud.changeIsLoading(false);
                           final snapshot = await FireStoreCotroller().getMyInformation(id: result.user!.uid);
                           Userm user = Userm(snapshot.id, snapshot.get('name'),
-                              snapshot.get('email'),snapshot.get('image'), snapshot.get('isAdmin'));
+                              snapshot.get('email'), snapshot.get('isAdmin'));
 
                            AppPrefernces().save(user: user);
 
-                          if (snapshot.get('isAdmin') == true) {
+                          if (AppPrefernces().isAdmin) {
                           Navigator.pushReplacementNamed(context, AdminHome.id);
                           } else {
                              Navigator.pushReplacementNamed(context, HomeScreen.id);

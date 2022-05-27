@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_app/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -75,8 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       tff.focuse = false;
 
                       return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -256,9 +256,11 @@ class _TextFormState extends State<TextForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: kGrayColor,
       width: 400,
-      margin: EdgeInsets.only(top: 10, right: 10),
+      margin: const EdgeInsets.only(top: 10, right: 10),
       child: TextFormField(
+        textInputAction: TextInputAction.search,
         autofocus: widget.focuse,
         controller: widget._titleTextController,
         decoration: InputDecoration(

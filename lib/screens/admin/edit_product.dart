@@ -109,7 +109,6 @@ void dispose() {
                       padding: EdgeInsets.symmetric(vertical: (50), horizontal: 20),
                       child: Column(
                         children: [
-
                           CustomTextField(
                               controller: _titleTextController, hint: 'Product Name', isNumber: false,),
                           const SizedBox(
