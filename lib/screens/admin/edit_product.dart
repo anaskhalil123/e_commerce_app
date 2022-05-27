@@ -7,9 +7,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../fireBase/firestore.dart';
 import '../../fireBase/storage_controller.dart';
+import '../../provider/selectedCategory.dart';
 import '../../widgets/CustomTextField.dart';
 
 class EditProduct extends StatefulWidget {
@@ -31,7 +33,6 @@ class _EditProductState extends State<EditProduct> with Helpers{
 
   late TextEditingController _titleTextController;
   late TextEditingController _descriptionTextController;
-  late TextEditingController _categoryTextController;
   late TextEditingController _priceTextController;
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
@@ -41,16 +42,23 @@ class _EditProductState extends State<EditProduct> with Helpers{
   XFile? _pickedFile;
   ImagePicker imagePicker = ImagePicker();
 
+  String category = '';
+
+
+ late String categoryOfProduct;
+ bool isChange = false;
+
 
   @override
   void initState(){
     super.initState();
   //  getProducts();
+    categoryOfProduct = widget.product!.category;
     _titleTextController = TextEditingController(text: widget.product?.title ?? '');
     _descriptionTextController = TextEditingController(text: widget.product?.description ?? '');
-    _categoryTextController = TextEditingController(text: widget.product?.category ?? '');
     _priceTextController = TextEditingController(text: widget.product?.price ?? '');
     imageProduct = widget.product?.image ?? '';
+
 
   }
 
@@ -58,7 +66,6 @@ class _EditProductState extends State<EditProduct> with Helpers{
 void dispose() {
   _titleTextController.dispose();
   _descriptionTextController.dispose();
-  _categoryTextController.dispose();
   _priceTextController.dispose();
 
 
@@ -70,8 +77,8 @@ void dispose() {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    
-    
+    // Provider.of<SelectedCategory>(context).category =product!.category;
+     category = Provider.of<SelectedCategory>(context).category;
     return  Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -120,9 +127,57 @@ void dispose() {
                           const SizedBox(
                             height: 10,
                           ),
-                          CustomTextField(
-                              controller: _categoryTextController,
-                              hint: 'Product Category', isNumber: false,),
+
+
+                          Container(
+                            width: width,
+                            height: 55,
+
+
+
+                            child:
+                            DecoratedBox(
+
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade100,
+
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+
+                              child: DropdownButton(
+
+                                isExpanded: true,
+
+                                // Initial Value
+                                value: isChange == false ? categoryOfProduct : Provider.of<SelectedCategory>(context).category,
+
+                                // Down Arrow Icon
+                                icon: const Icon(Icons.keyboard_arrow_down),
+
+                                // Array list of items
+                                items: Provider.of<SelectedCategory>(context).items2.map((String items) {
+
+
+                                  return DropdownMenuItem(
+                                    value: items,
+                                    child: Text(items),
+                                  );
+                                }).toList(),
+                                // After selecting the desired option,it will
+                                // change button value to selected value
+                                onChanged: (String? newValue) {
+                                  Provider.of<SelectedCategory>(context, listen: false).changeCategory(newValue!);
+                                  category = newValue;
+                                  isChange = true;
+                                  // setState(() {
+                                  //   dropdownvalue = newValue!;
+                                  // });
+                                },
+
+
+                              ),
+                            ),
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -177,22 +232,22 @@ void dispose() {
 
   Future<void> performSave() async {
     if (checkData()) {
-      if(imageProduct != widget.product!.image){
+      if(_pickedFile != null){
         await uploadImage();
       }else{
+        await update();
         changeIndicatorValue(null);
       }
 
-      await update();
+
     }
   }
 
   bool checkData() {
     if (_titleTextController.text.isNotEmpty &&
         _descriptionTextController.text.isNotEmpty &&
-        _categoryTextController.text.isNotEmpty &&
         _priceTextController.text.isNotEmpty
-        && imageProduct != "") {
+        && imageProduct != "" && category.isNotEmpty) {
       return true;
     }
     showSnackBar(context: context, content: 'Enter requred data', error: true);
@@ -213,7 +268,7 @@ void dispose() {
     product.title = _titleTextController.text;
     product.image = imageProduct;
     product.price = _priceTextController.text;
-    product.category = _categoryTextController.text;
+    product.category = category;
     product.description = _descriptionTextController.text;
 
 
@@ -241,7 +296,7 @@ void dispose() {
               //   imageProduct = reference!.fullPath;
 
               imageProduct = await reference!.getDownloadURL();
-
+              await update();
               changeIndicatorValue(1);
 
             } else {

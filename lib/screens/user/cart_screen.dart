@@ -123,6 +123,7 @@ class _CartScreenState extends State<CartScreen> with Helpers{
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
+                                margin: EdgeInsets.only(left: 3),
                                 alignment: AlignmentDirectional.topStart,
                               ),
                               Container(
@@ -130,7 +131,7 @@ class _CartScreenState extends State<CartScreen> with Helpers{
                                   data[index].get('price'),
                                   textAlign: TextAlign.center,
                                 ),
-                                margin: EdgeInsets.only(top: 5),
+                                margin: EdgeInsets.only(top: 5, left: 3),
                                 alignment: AlignmentDirectional.topStart,
                               ),
                               Container(
@@ -139,7 +140,7 @@ class _CartScreenState extends State<CartScreen> with Helpers{
                                   textAlign: TextAlign.center,
                                   style: TextStyle(color: Colors.red),
                                 ),
-                                margin: EdgeInsets.only(top: 5),
+                                margin: EdgeInsets.only(top: 5, left: 3),
                                 alignment: AlignmentDirectional.topStart,
                               )
                             ],

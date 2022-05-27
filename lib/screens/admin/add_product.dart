@@ -25,7 +25,7 @@ class _AddProductState extends State<AddProduct>  with Helpers {
   late BuildContext _context;
 
   //using variables instead of controllers
-  late String name, price, desc, category, location;
+  late String name, price, desc, category;
 
     String imageProduct = "";
 
@@ -45,17 +45,8 @@ ImagePicker imagePicker = ImagePicker();
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    String category = '';
-    Provider.of<SelectedCategory>(context).changeCategory( Provider.of<SelectedCategory>(context).items2[0]);
+    category = Provider.of<SelectedCategory>(context).category;
 
-    // List of items in our dropdown menu
-    // var items = [
-    //   'Item 1',
-    //   'Item 2',
-    //   'Item 3',
-    //   'Item 4',
-    //   'Item 5',
-    // ];
     _context = context;
     return Scaffold(
       appBar: AppBar(
@@ -110,13 +101,6 @@ ImagePicker imagePicker = ImagePicker();
                               height: 20,
                             ),
 
-                            // DropdownButton(items: [], onChanged: onChanged)
-                            // PopupMenuButton(
-                            //     icon: Icon(Icons.arrow_drop_down),
-                            //     itemBuilder: (context){
-                            //
-                            //   return[];
-                            // }),
                             Container(
                               width: width,
                            height: 55,
@@ -154,8 +138,11 @@ ImagePicker imagePicker = ImagePicker();
                                   // After selecting the desired option,it will
                                   // change button value to selected value
                                   onChanged: (String? newValue) {
-                                    Provider.of<SelectedCategory>(context, listen: false).changeCategory(newValue!);
-                                    category = newValue;
+
+                                    Provider.of<SelectedCategory>(context, listen: false).changeCategory(newValue);
+                                    category = newValue!;
+
+
                                     // setState(() {
                                     //   dropdownvalue = newValue!;
                                     // });

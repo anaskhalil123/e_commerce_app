@@ -32,10 +32,21 @@ class SelectedCategory extends ChangeNotifier {
     'Beauty and personal care'
   ];
 
-  String category = "All";
+  String category = 'Fashion';
 
-  changeCategory(String value) {
-    category = value;
+  String category2 = "All";
+
+  changeCategory(String? value) {
+    category = value!;
+
     notifyListeners();
   }
+
+  changeCategorySelected(String value) {
+    category2 = value;
+
+    notifyListeners();
+  }
+
+
 }

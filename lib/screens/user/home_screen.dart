@@ -20,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen>
   //int sizeItems = Provider.of<SelectedCategory>.items.length;
 
   final List<BnScreen> _screens = <BnScreen>[
-    const BnScreen(title: 'HOME', widget: ProductsScreen()),
-    const BnScreen(title: 'CATEGORIES', widget: CartScreen()),
-    const BnScreen(title: 'PROFILE', widget: ProfileScreen())
+    const BnScreen(title: 'Home', widget: ProductsScreen()),
+    const BnScreen(title: 'My Cart', widget: CartScreen()),
+    const BnScreen(title: 'Profile', widget: ProfileScreen())
   ];
 
   @override

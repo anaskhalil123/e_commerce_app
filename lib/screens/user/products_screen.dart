@@ -53,7 +53,7 @@ class _ProductsScreenState extends State<ProductsScreen>
         onTap: (int selectedTabIndex) {
           setState(() {
             Provider.of<SelectedCategory>(context, listen: false)
-                .changeCategory(
+                .changeCategorySelected(
                     Provider.of<SelectedCategory>(context, listen: false)
                         .items[selectedTabIndex]);
             print('Seleced Index: $selectedTabIndex');
@@ -149,8 +149,7 @@ class _ProductsScreenState extends State<ProductsScreen>
                   List<QueryDocumentSnapshot> data = snapshot.data!.docs;
 
                   List<QueryDocumentSnapshot> myData = getProductsPerCateg(
-                      Provider.of<SelectedCategory>(context, listen: false)
-                          .category,
+                      Provider.of<SelectedCategory>(context, listen: false).category2,
                       data);
 
                   return Padding(

@@ -7,7 +7,6 @@ import 'package:e_commerce_app/provider/selectedCategory.dart';
 import 'package:e_commerce_app/screens/admin/add_product.dart';
 import 'package:e_commerce_app/screens/admin/admin_home_screen.dart';
 import 'package:e_commerce_app/screens/admin/orders_screen.dart';
-import 'package:e_commerce_app/screens/image_selection_screen.dart';
 import 'package:e_commerce_app/screens/launch_screen.dart';
 import 'package:e_commerce_app/screens/login_screen.dart';
 import 'package:e_commerce_app/screens/sigup_screen.dart';
@@ -50,7 +49,6 @@ class MyApp extends StatelessWidget {
           AdminHome.id: (context) => AdminHome(),
           AddProduct.id: (context) => AddProduct(),
          // ProductDetails.id: (context) => ProductDetails(),
-          '/select_image_screen': (context) => SelectImageScreeen(),
      '/search_screen': (context) => SearchScreen(),
           OrdersScreen.id: (context) => OrdersScreen(),
         },

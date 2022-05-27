@@ -34,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  bool isTeacher = false;
+  bool isAdmin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
 
                         //  isTeacher =  Provider.of<AdminMode>(context, listen: true).isAdmin;
                         //  setState(() {});
-                        if (value != null) isTeacher = value;
+                        if (value != null) isAdmin = value;
 
                         //   print(isTeacher);
                         //   return;
@@ -141,11 +141,11 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
 
                             // User user = User(id: result.user!.uid,name: _name, email: _email, isTeacher: isTeacher);
                             Userm user = Userm(
-                                result.user!.uid, _name, _email, isTeacher);
+                                result.user!.uid, _name, _email, '', isAdmin);
                             AppPrefernces().save(user: user);
                             final storeUser = await FireStoreCotroller().storeUser(user: user);
 
-                            if (isTeacher) {
+                            if (isAdmin) {
                               Navigator.pushReplacementNamed(
                                   context, AdminHome.id);
                             } else {

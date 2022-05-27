@@ -2,9 +2,10 @@ class Userm {
   late String id;
   late String name;
   late String email;
-  late bool isTeacher;
+  late String image;
+  late bool isAdmin;
 
-  Userm(this.id, this.name, this.email, this.isTeacher);
+  Userm(this.id, this.name, this.email, this.image, this.isAdmin);
 
   //{required this.id ,required this.name, required this.email, required this.isTeacher}
 
@@ -13,7 +14,7 @@ class Userm {
     map['id'] = id;
     map['name'] = name;
     map['email'] = email;
-    map['isTeacher'] = isTeacher;
+    map['isAdmin'] = isAdmin;
 
     return map;
   }
@@ -22,7 +23,7 @@ class Userm {
     id = map['id'];
     name = map['name'];
     email = map['email'];
-    isTeacher = map['isTeacher'];
+    isAdmin = map['isAdmin'];
   }
 
 // User.fromMap(Map<String, dynamic> map){

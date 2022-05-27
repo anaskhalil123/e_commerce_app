@@ -19,7 +19,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
       String routIFActive =
-          AppPrefernces().isTheacher ? AdminHome.id : HomeScreen.id;
+          AppPrefernces().isAdmin ? AdminHome.id : HomeScreen.id;
       String rout = AppPrefernces().loggedIn ? routIFActive : LoginScreen.id;
       Navigator.pushReplacementNamed(context, rout);
     });

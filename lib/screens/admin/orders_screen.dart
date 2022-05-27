@@ -23,6 +23,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        title: Text('Purchase orders'),
 
       ),
 
@@ -123,6 +124,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold),
                                       ),
+                                      margin: EdgeInsets.only( left: 3),
                                       alignment: AlignmentDirectional.topStart,
                                     ),
                                     Container(
@@ -130,15 +132,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         data[index].get('price'),
                                         textAlign: TextAlign.center,
                                       ),
-                                      margin: EdgeInsets.only(top: 10),
+                                      margin: EdgeInsets.only(top: 5, left: 3),
                                       alignment: AlignmentDirectional.topStart,
                                     ),
                                     Container(
                                       child: Text(
                                         '${data[index].get('quantity')}',
                                         textAlign: TextAlign.center,
+                                          style: TextStyle(color: Colors.red)
                                       ),
-                                      margin: EdgeInsets.only(top: 10),
+                                      margin: EdgeInsets.only(top: 5, left: 3),
                                       alignment: AlignmentDirectional.topStart,
                                     )
                                   ],
