@@ -93,11 +93,11 @@ class _LoginScreenState extends State<LoginScreen> with Helpers {
                           modelHud.changeIsLoading(false);
                           final snapshot = await FireStoreCotroller().getMyInformation(id: result.user!.uid);
                           Userm user = Userm(snapshot.id, snapshot.get('name'),
-                              snapshot.get('email'), snapshot.get('isAdmin'));
+                              snapshot.get('email'), snapshot.get('imagePath'), snapshot.get('isAdmin'), snapshot.get('writeAboutYourSelf'));
 
                            AppPrefernces().save(user: user);
 
-                          if (AppPrefernces().isAdmin) {
+                          if (snapshot.get('isAdmin') == true) {
                           Navigator.pushReplacementNamed(context, AdminHome.id);
                           } else {
                              Navigator.pushReplacementNamed(context, HomeScreen.id);

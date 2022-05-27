@@ -140,7 +140,7 @@ class _SignupScreenState extends State<SignupScreen> with Helpers {
 
                             // User user = User(id: result.user!.uid,name: _name, email: _email, isTeacher: isTeacher);
                             Userm user =
-                                Userm(result.user!.uid, _name, _email, isAdmin);
+                                Userm(result.user!.uid, _name, _email,'', isAdmin);
                             AppPrefernces().save(user: user);
                             final storeUser = await FireStoreCotroller()
                                 .storeUser(user: user);

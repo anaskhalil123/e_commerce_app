@@ -22,11 +22,18 @@ class _ProfileScreenState extends State<ProfileScreen> with Helpers {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController aboutYourSelfController = TextEditingController();
-  File? imageFile;
+
+  // File? imageFile;
+  XFile? imageFile;
+
+  ImagePicker imagePicker = ImagePicker();
   String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     userNameController.text = appPrefernces.myName;
     userEmailController.text = appPrefernces.myEmail;
     passwordController.text = '****************';
@@ -41,57 +48,32 @@ class _ProfileScreenState extends State<ProfileScreen> with Helpers {
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       children: [
-        DecoratedBox(
-          decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-            BoxShadow(
-                offset: const Offset(0, 0),
-                color: Colors.black.withOpacity(0.21),
-                blurRadius: 6)
-          ]),
-          child: GestureDetector(
-            onTap: () {
-              _getFromGallery();
-            },
-            child: CircleAvatar(
-              radius: 100,
-              backgroundImage: imageUrl != null
-                  ? Image.network(imageUrl!).image
-                  : Image.asset(
-                      'images/icons/pick_image.png',
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.none,
-                    ).image,
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: const Text(
-            'USER NAME',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            appPrefernces.myName,
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 14,
-            ),
-          ),
-        ),
-        const Divider(
-          height: 40,
-          thickness: 1,
+        GestureDetector(
+          onTap: (){
+            _getFromGallery();
+          },
+          child: Container(
+
+alignment: Alignment.center,
+height: 180,
+              width: 180,
+              child: Card(
+                color: Colors.grey.shade300,
+                  clipBehavior: Clip.antiAlias,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(200),
+
+                  ),
+                  child: imageUrl != null
+                      ? Image.network(imageUrl!,   fit: BoxFit.cover,)
+                      : Image.asset(
+                          'images/icons/profile.png',
+
+                         fit: BoxFit.cover,
+                        ))
+
+              ),
         ),
         EditTextWidget(
           text: 'User Name',
@@ -182,14 +164,23 @@ class _ProfileScreenState extends State<ProfileScreen> with Helpers {
     }
   }
 
-  _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker()
-        .getImage(source: ImageSource.gallery, maxHeight: 1800, maxWidth: 1800);
+  // _getFromGallery() async {
+  //   PickedFile? pickedFile = await ImagePicker()
+  //       .getImage(source: ImageSource.gallery, maxHeight: 1800, maxWidth: 1800);
+  //
+  //   if (pickedFile != null) {
+  //     imageFile = File(pickedFile.path);
+  //
+  //     uploadImage();
+  //   }
+  // }
 
-    if (pickedFile != null) {
-      imageFile = File(pickedFile.path);
-
-      uploadImage();
+  Future<void> _getFromGallery() async {
+    imageFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (imageFile != null) {
+      setState(() {
+        uploadImage();
+      });
     }
   }
 }

@@ -148,11 +148,11 @@ class FireStoreCotroller {
         .catchError((eroor) => false);
   }
 
-  Future<bool> acceptOrderDeleteFromMyCart({required String path}) async {
+  Future<bool> acceptOrderDeleteFromMyCart({required String path, required String idOwner}) async {
     final _auth = FirebaseAuth.instance;
     return await _firebaseFirestore
         .collection('Users')
-        .doc(_auth.currentUser!.uid)
+        .doc(idOwner)
         .collection('MyCart')
         .doc(path)
         .delete()

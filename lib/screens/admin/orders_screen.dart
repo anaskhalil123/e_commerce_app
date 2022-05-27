@@ -149,88 +149,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 width: width * 0.4 - 23,
                               ),
 
-                              /*
-                              Container(
-                                // child: Row(
-                                //   children: [
-                                child: data[index].get('isOrdered') == true?
 
-                                Container(
-                                  child: DecoratedBox(
-                                      decoration: BoxDecoration(
-
-                                        color: Colors.amber,
-
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-
-                                      child:TextButton(onPressed: () async{
-
-                                      }, child: Text('Wait Accept You Order',
-
-                                        style: TextStyle(fontSize: 12, color: Colors.white ,),textAlign: TextAlign.center, )
-
-                                      )
-                                  ),
-                                  height: 40,
-                                  width: 180,
-                                ) :GestureDetector(
-                                    onTap: () async{
-
-                                      // Purchase  purchase= Purchase(id: data[index].get('id'), title: data[index].get('title'),
-                                      //     description: data[index].get('description'), price: data[index].get('price'),
-                                      //     category: data[index].get('category'), image: data[index].get('image'), quantity: data[index].get('quantity'));
-                                      //
-                                      // purchase.isOrdered =true;
-                                      //
-                                      // String myId = AppPrefernces().myId.toString();
-                                      // String myName = AppPrefernces().myName.toString();
-                                      // String myImage = AppPrefernces().myImage.toString();
-                                      //
-                                      // OrderProduct orderProduct = OrderProduct(id: data[index].get('id'), title: data[index].get('title'),
-                                      //     description: data[index].get('description'), price: data[index].get('price'),
-                                      //     category: data[index].get('category'), image: data[index].get('image'), quantity: data[index].get('quantity'), idOwnerOrder: myId,
-                                      //     nameOwnerOrder: myName, imageOwnerOrder: myImage);
-                                      // await addToOrders(orderProduct);
-                                      // await isOrdered(data[index].id, purchase);
-
-
-                                    },
-
-                                    child: Image(
-                                      image: AssetImage('images/icons/buy.png'),
-                                    )),
-                                // alignment: AlignmentDirectional.bottomEnd,
-
-                                //   IconButton(
-                                //     onPressed: () async {
-                                //       // await delete(path: data[index].id);
-                                //     },
-                                //
-                                //     icon: Icon(Icons.delete, color: Colors.red,),
-                                //
-                                //   )
-                                //
-                                // ],
-
-                                //  verticalDirection: VerticalDirection.up,
-                                // crossAxisAlignment: CrossAxisAlignment.end,
-                                // mainAxisAlignment: MainAxisAlignment.center,
-
-                                margin: EdgeInsets.only(
-                                  top: 40,
-                                  right: 5,
-                                ),
-                                width: 120,
-                                height: 110,
-                                alignment: AlignmentDirectional.bottomEnd,
-                              ),
-
-
-                              */
                             ],
 
-                            // )
                           ),
                       Container(
 
@@ -272,7 +193,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 onPressed: () async {
 
 
-await acceptOrder(path: data[index].id);
+await acceptOrder(path: data[index].id, idOwnerOrder :data[index].get('idOwnerOrder'));
 
                                 },
 
@@ -315,9 +236,9 @@ await acceptOrder(path: data[index].id);
   }
 
 
-  Future<void> acceptOrder({required String path}) async {
+  Future<void> acceptOrder({required String path, idOwnerOrder}) async {
     bool status = await FireStoreCotroller().acceptOrderDeleteFromOrder(path: path);
-    bool status2 = await FireStoreCotroller().acceptOrderDeleteFromMyCart(path: path);
+    bool status2 = await FireStoreCotroller().acceptOrderDeleteFromMyCart(path: path, idOwner: idOwnerOrder);
     if (status) {
       //showSnackBar(context: context, content: 'Product Deleted successfuly');
     }

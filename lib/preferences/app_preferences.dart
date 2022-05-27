@@ -25,23 +25,24 @@ class AppPrefernces {
     await _sharedPreferences.setString('id', user.id);
     await _sharedPreferences.setString('name', user.name);
     await _sharedPreferences.setString('image', user.imagePath ?? '');
-    await _sharedPreferences.setString(
-        'writeAboutYourSelf', user.writeAboutYourSelf ?? '');
+    await _sharedPreferences.setString('writeAboutYourSelf', user.writeAboutYourSelf ?? '');
     await _sharedPreferences.setBool('isAdmin', user.isAdmin);
   }
+
+
 
   Future<void> updateUserName({required String name}) async {
     await _sharedPreferences.setString('name', name);
 
     await FireStoreCotroller().updateUser(
-        user: Userm(myId, myName, myEmail, isAdmin, writeAboutMySelf, myImage));
+        user: Userm(myId, myName, myEmail, myImage, isAdmin, writeAboutMySelf));
   }
 
   Future<void> updateUserEmail({required String email}) async {
     await _sharedPreferences.setString('email', email);
 
     await FireStoreCotroller().updateUser(
-        user: Userm(myId, myName, myEmail, isAdmin, writeAboutMySelf, myImage));
+        user: Userm(myId, myName, myEmail,myImage, isAdmin, writeAboutMySelf, ));
   }
 
   // added, update writeAboutYourSelf field in shredPref
@@ -52,7 +53,7 @@ class AppPrefernces {
 
     print('user writeAboutMySelf is $writeAboutMySelf');
     bool status = await FireStoreCotroller().updateUser(
-        user: Userm(myId, myName, myEmail, isAdmin, writeAboutMySelf, myImage));
+        user: Userm(myId, myName, myEmail,myImage, isAdmin, writeAboutMySelf));
 
     print('status is $status');
   }
@@ -62,8 +63,10 @@ class AppPrefernces {
     await _sharedPreferences.setString('image', image);
 
     await FireStoreCotroller().updateUser(
-        user: Userm(myId, myName, myEmail, isAdmin, writeAboutMySelf, myImage));
+        user: Userm(myId, myName, myEmail,myImage, isAdmin, writeAboutMySelf));
   }
+
+
 
   bool get loggedIn => _sharedPreferences.getBool('logged_in') ?? false;
 

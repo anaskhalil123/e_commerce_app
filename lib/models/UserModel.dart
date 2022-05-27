@@ -6,8 +6,8 @@ class Userm {
   late String? writeAboutYourSelf;
   late bool isAdmin;
 
-  Userm(this.id, this.name, this.email, this.isAdmin,
-      [this.writeAboutYourSelf, this.imagePath]);
+  Userm(this.id, this.name, this.email, this.imagePath, this.isAdmin,
+      [this.writeAboutYourSelf]);
 
   //{required this.id ,required this.name, required this.email, required this.isTeacher}
 
@@ -23,11 +23,11 @@ class Userm {
       map['writeAboutYourSelf'] = '';
     }
 
-    if (imagePath != null) {
+   // if (imagePath != '') {
       map['imagePath'] = imagePath;
-    } else {
-      map['imagePath'] = '';
-    }
+  //  } else {
+      //map['imagePath'] = '';
+  //  }
 
     return map;
   }
