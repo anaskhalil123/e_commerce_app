@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AdminMode>(create: (context) => AdminMode()),
         ChangeNotifierProvider<CartItem>(create: (context) => CartItem()),
         ChangeNotifierProvider<SelectedCategory>(create: (context) => SelectedCategory())
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

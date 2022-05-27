@@ -34,7 +34,6 @@ class _ProductsScreenState extends State<ProductsScreen>
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: TabBar(
         isScrollable: true,
@@ -46,14 +45,11 @@ class _ProductsScreenState extends State<ProductsScreen>
         unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
         indicatorWeight: 3,
         indicatorSize: TabBarIndicatorSize.tab,
-// indicatorPadding: EdgeInsets.only(left: 5),
         indicator: BoxDecoration(
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.blue, width: 1)),
-
         unselectedLabelColor: Colors.grey,
-
         onTap: (int selectedTabIndex) {
           setState(() {
             Provider.of<SelectedCategory>(context, listen: false)
@@ -108,11 +104,12 @@ class _ProductsScreenState extends State<ProductsScreen>
       body: Column(children: [
         GestureDetector(
           onTap: () {
+            // showSearch(context: context, delegate: DataSearch());
             Navigator.pushNamed(context, '/search_screen');
           },
           child: Container(
             height: 45,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
@@ -339,3 +336,29 @@ class _ProductsScreenState extends State<ProductsScreen>
     }
   }
 }
+
+// class DataSearch extends SearchDelegate<String>{
+//   List<String> searchTerms;
+//
+//   @override
+//   List<Widget>? buildActions(BuildContext context) {
+//
+//   }
+//
+//   @override
+//   Widget? buildLeading(BuildContext context) {
+//
+//   }
+//
+//   @override
+//   Widget buildResults(BuildContext context) {
+//
+//     throw UnimplementedError();
+//   }
+//
+//   @override
+//   Widget buildSuggestions(BuildContext context) {
+//     return ();
+//   }
+//
+// }

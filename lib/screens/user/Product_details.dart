@@ -1,19 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/models/Product.dart';
 import 'package:e_commerce_app/utils/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../fireBase/firestore.dart';
-import '../../provider/cartItem.dart';
 
 class ProductDetails extends StatefulWidget {
   static String id = 'ProductDetails';
   final Product? product;
   final String? path;
 
-  ProductDetails({required this.product,required this.path});
+  ProductDetails({required this.product, required this.path});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -38,10 +35,11 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
         fit: StackFit.expand,
         children: [
           Container(
-            child: Image.network(widget.product!.image,),
+            child: Image.network(
+              widget.product!.image,
+            ),
             alignment: Alignment.topCenter,
-       height: 220,
-
+            height: 220,
           ),
           // Image(
           //   alignment: Alignment.topCenter,
@@ -217,7 +215,6 @@ class _ProductDetailsState extends State<ProductDetails> with Helpers {
                   //   bool isAdded = await   FireStoreCotroller().addToCart(path: product.get('image'), quantity: _quantity);
 
                   await addToCart('${widget.path}');
-
                 },
               ),
             ),
