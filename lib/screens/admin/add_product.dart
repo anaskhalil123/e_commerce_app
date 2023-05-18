@@ -41,6 +41,7 @@ double? _indicatorValue = 0;
 
 ImagePicker imagePicker = ImagePicker();
 
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -165,7 +166,7 @@ ImagePicker imagePicker = ImagePicker();
                                   :TextButton(onPressed: () async{
                                 await pickImage();
                               }, child: Text('PICK IMAGE'),
-                                style: TextButton.styleFrom(minimumSize: Size(double.infinity, 50), backgroundColor: Colors.blue.shade100),),
+                                style: TextButton.styleFrom( backgroundColor: Colors.blue.shade100),),
 
                             ),
 
@@ -175,7 +176,7 @@ ImagePicker imagePicker = ImagePicker();
                             ElevatedButton(
                               child: Text('Add Product'),
                               style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(double.infinity, 50)
+
                               ),
                               onPressed: () async {
                                 if (_globalKey.currentState!.validate()) {
@@ -280,6 +281,7 @@ ImagePicker imagePicker = ImagePicker();
                 changeIndicatorValue(0);
                 showSnackBar(context: context, content: message, error: true);
               }
+
             }
           });
     }else{
@@ -294,6 +296,6 @@ ImagePicker imagePicker = ImagePicker();
     });
   }
 
-  
+
 
 }

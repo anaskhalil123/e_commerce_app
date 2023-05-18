@@ -13,9 +13,18 @@ class AppPrefernces {
 
   AppPrefernces._internal();
 
+
+
   Future<void> initPreferences() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
+
+
+
+  Future<bool> test() async {
+    return await _sharedPreferences.setBool('logged_in', true);
+  }
+
 
   Future<void> save({required Userm user}) async {
     print('user id' + user.id);

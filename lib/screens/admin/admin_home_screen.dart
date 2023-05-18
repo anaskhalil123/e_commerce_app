@@ -49,6 +49,9 @@ class _AdminHomeState extends State<AdminHome> with Helpers {
 
               onPressed: (){
                 Navigator.pushNamed(context, AddProduct.id);
+              //   Navigator.push(context, MaterialPageRoute(builder: (context){
+              //     return AddProduct();
+              //   }));
               }, child: Icon(Icons.add),
               style: ElevatedButton.styleFrom(
 

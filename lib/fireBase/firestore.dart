@@ -15,6 +15,7 @@ class FireStoreCotroller {
         .doc('${user.id}')
         .set(user.toMap())
         .then((value) {
+
       //DocumentReference reference = value1;
       return true;
     }).catchError((error) => false);
@@ -41,7 +42,40 @@ class FireStoreCotroller {
   Stream<QuerySnapshot> read() async* {
     yield* _firebaseFirestore.collection('Products').snapshots();
   }
+  ///////////////////////////////////////
+  Future<Map<String, dynamic>?> getdocument(String id) async{
+    DocumentSnapshot<Map<String, dynamic>> document =await _firebaseFirestore.collection('users').doc(id).get();//as DocumentSnapshot<Map<String, dynamic>>;
+   Map<String, dynamic>? documentData =document.data();
 
+   return documentData;
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getDocument() async{
+    var  documentSnapshot= await _firebaseFirestore.collection('users').doc('id').get();
+  //  documentSnapshot.data();
+
+    return documentSnapshot;
+  }
+
+
+
+
+  Future<List<Map<String, dynamic>>?> getAllUsers()async{
+    QuerySnapshot<Map<String, dynamic>> col = await _firebaseFirestore.collection('users').get();
+
+    var list = col.docs.map((e) => e.data()).toList();
+
+    //col.docs[5].data();
+
+    return list;
+  }
+
+
+
+
+
+
+  //////////////////////////////////
   Stream<QuerySnapshot> readProductsInMyCart() async* {
     final _auth = FirebaseAuth.instance;
     yield* _firebaseFirestore
